@@ -1,7 +1,7 @@
 # NutriTrack
 
 ## User Stories
-penis
+
 
 I want to create an account to securely save my nutrition data.
 
