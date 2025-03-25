@@ -1,6 +1,6 @@
-##NutriTrack
+## NutriTrack
 
-#User Stories
+# User Stories
 
 I want to create an account to securely save my nutrition data.
 
