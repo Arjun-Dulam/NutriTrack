@@ -2,9 +2,58 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriTrack - Your Personal Nutrition Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <p> index</p>
+<body class="font-sans bg-gray-100">
+    <header class="bg-green-600 text-white text-center py-6">
+        <h1 class="text-4xl font-bold">NutriTrack</h1>
+        <p class="text-xl mt-2">Your Personal Nutrition Tracker</p>
+    </header>
+
+    <nav class="bg-gray-800 text-white py-4">
+        <ul class="flex justify-center space-x-6">
+            <li><a href="#home" class="hover:text-green-400">Home</a></li>
+            <li><a href="#features" class="hover:text-green-400">Features</a></li>
+            <li><a href="#about" class="hover:text-green-400">About</a></li>
+            <li><a href="#contact" class="hover:text-green-400">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+        <section id="home" class="mb-12">
+            <h2 class="text-3xl font-bold mb-4">Welcome to NutriTrack</h2>
+            <p class="mb-6">Take control of your nutrition and achieve your health goals with NutriTrack. Our easy-to-use platform helps you track your daily intake, set goals, and make informed decisions about your diet.</p>
+            <a href="#" class="bg-green-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-700 transition duration-300">Get Started</a>
+        </section>
+
+        <section id="features" class="mb-12">
+            <h2 class="text-3xl font-bold mb-4">Features</h2>
+            <ul class="list-disc pl-6 space-y-2">
+                <li>Track your daily calorie intake</li>
+                <li>Monitor macronutrients (protein, carbs, fats)</li>
+                <li>Set personalized nutrition goals</li>
+                <li>Access a comprehensive food database</li>
+                <li>View detailed nutrition reports and insights</li>
+            </ul>
+        </section>
+
+        <section id="about" class="mb-12">
+            <h2 class="text-3xl font-bold mb-4">About NutriTrack</h2>
+            <p>NutriTrack was founded by a team of nutritionists and tech enthusiasts who believe that everyone should have access to tools that make healthy eating easier. Our mission is to empower individuals to make informed decisions about their diet and improve their overall well-being.</p>
+        </section>
+
+        <section id="contact" class="mb-12">
+            <h2 class="text-3xl font-bold mb-4">Contact Us</h2>
+            <p class="mb-2">Have questions or feedback? We'd love to hear from you!</p>
+            <p class="mb-1"><span class="font-bold">Email:</span> info@nutritrack.com</p>
+            <p><span class="font-bold">Phone:</span> (555) 123-4567</p>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white text-center py-4">
+        <p>&copy; 2025 NutriTrack. All rights reserved.</p>
+    </footer>
 </body>
 </html>
