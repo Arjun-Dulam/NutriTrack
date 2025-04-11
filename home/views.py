@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 
 def index(request):
-    return (request,' home/index.html')
+    return render(request,'home/index.html')
 
 def about(request):
-    return (request,' home/about.html')
+    return render(request, 'home/about.html')
