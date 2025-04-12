@@ -27,10 +27,10 @@
                 </button>
                 <ul id="user-menu" class="absolute hidden bg-white text-black right-0 mt-2 py-2 w-48 border rounded shadow-lg">
                     {% if user.is_authenticated %}
-                        <li class="block px-4 py-2 hover:bg-gray-200 cursor-pointer">Log Out</li>
+                    <li><a href="{% url 'accounts.logout' %}" class="block px-4 py-2 hover:bg-gray-200 cursor-pointer">Log Out</a></li>
                         <li class="block px-4 py-2 hover:bg-gray-200 cursor-pointer">Change Password</li>
                     {% else %}
-                        <li><a href="{% url 'accounts.logout' %}" class="block px-4 py-2 hover:bg-gray-200 cursor-pointer">Log In</a></li>
+                        <li><a href="{% url 'accounts.login' %}" class="block px-4 py-2 hover:bg-gray-200 cursor-pointer">Log In</a></li>
                         <li class="block px-4 py-2 hover:bg-gray-200 cursor-pointer">Sign Up</li>
                     {% endif %}
                 </ul>

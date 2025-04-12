@@ -71,4 +71,4 @@ def changePassword(request):
 @login_required
 def logout(request):
     auth_logout(request)
-    return redirect('home.index')
+    return render(request, 'accounts/logoutConfirmation.html')
