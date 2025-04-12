@@ -19,6 +19,20 @@
             <li><a href="#features" class="hover:text-green-400">Features</a></li>
             <li><a href="{% url 'home.about' %}" class="hover:text-green-400">About</a></li>
             <li><a href="#contact" class="hover:text-green-400">Contact</a></li>
+            <li class="relative group">
+                <a href="#" class="hover:text-green-400 flex items-center">
+                    <img src="{% static 'images/user-icon.jpg' %}" alt="User Icon" class="h-6 w-6 rounded-full">
+                </a>
+                <ul class="absolute hidden group-hover:block bg-white text-black right-0 mt-2 py-2 w-48 border rounded shadow-lg">
+                    {% if user.is_authenticated %}
+                        <li class="block px-4 py-2">Log Out</li>
+                        <li class="block px-4 py-2">Change Password</li>
+                    {% else %}
+                        <li class="block px-4 py-2">Log In</li>
+                        <li class="block px-4 py-2">Sign Up</li>
+                    {% endif %}
+                </ul>
+            </li>
         </ul>
     </nav>
 
