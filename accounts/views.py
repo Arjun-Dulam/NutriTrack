@@ -67,3 +67,8 @@ def changePassword(request):
         request.user.save()
         template_data['success'] = 'Your password has been successfully changed.'
         return render(request, 'accounts/changePassword.html', {'template_data': template_data})
+
+@login_required
+def logout(request):
+    auth_logout(request)
+    return redirect('home.index')
