@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="logout-confirmation">
+    <h1>You have been logged out!</h1>
+    <p>You will be redirected to home in <span id="timer">5</span> seconds.</p>
+    <a href="{% url 'home.index' %}" class="btn btn-primary">Go to Home</a>
+</div>
+
+<script>
+    let countdown = 5;
+    const timerElement = document.getElementById('timer');
+    const interval = setInterval(() => {
+        countdown--;
+        timerElement.textContent = countdown;
+        if (countdown <= 0) {
+            clearInterval(interval);
+            window.location.href = "{% url 'home.index' %}";
+        }
+    }, 1000);
+</script>
+{% endblock %}
