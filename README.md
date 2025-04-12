@@ -4,7 +4,7 @@
 
 - [x] As a user, I want to create an account so that I can securely save my nutrition data.
 - [x] As a user, I want to log in and out of my account so that I can access my nutrition data securely.
-- [ ] As a user, I want to reset my password in case I forget.
+- [x] As a user, I want to reset my password in case I forget.
 - [ ] As a user, I want to input my weight, height, and sex so that I can receive recommendations on my water and caloric intake.
 - [ ] As a user, I want to record my meals and snacks so that I can track my nutrition data.
 - [ ] As a user, I want my daily calorie intake to be calculated automatically so that I know what to eat.

@@ -42,3 +42,28 @@ def signup(request):
             template_data['form'] = form
             return render(request, 'accounts/signup.html',
                 {'template_data': template_data})
+
+@login_required            
+def changePassword(request):
+    template_data = {}
+    template_data['title'] = 'Change Password'
+    if request.method == 'GET':
+        return render(request, 'accounts/changePassword.html',
+                      {'template_data': template_data})
+    elif request.method == 'POST':
+        current_password = request.POST.get('current_password')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+
+        if not request.user.check_password(current_password):
+            template_data['error'] = 'The current password is incorrect.'
+            return render(request, 'accounts/changePassword.html', {'template_data': template_data})
+
+        if new_password != confirm_password:
+            template_data['error'] = 'The new passwords do not match.'
+            return render(request, 'accounts/changePassword.html', {'template_data': template_data})
+
+        request.user.set_password(new_password)
+        request.user.save()
+        template_data['success'] = 'Your password has been successfully changed.'
+        return render(request, 'accounts/changePassword.html', {'template_data': template_data})
