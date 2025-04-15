@@ -24,3 +24,5 @@ profiles_settings.xml
 
 tailwind.config.js
 tailwindcss
+
+# db.sqlite3
