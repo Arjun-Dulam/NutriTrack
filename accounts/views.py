@@ -51,13 +51,8 @@ def changePassword(request):
         return render(request, 'accounts/changePassword.html',
                       {'template_data': template_data})
     elif request.method == 'POST':
-        current_password = request.POST.get('current_password')
         new_password = request.POST.get('new_password')
         confirm_password = request.POST.get('confirm_password')
-
-        if not request.user.check_password(current_password):
-            template_data['error'] = 'The current password is incorrect.'
-            return render(request, 'accounts/changePassword.html', {'template_data': template_data})
 
         if new_password != confirm_password:
             template_data['error'] = 'The new passwords do not match.'
@@ -66,7 +61,7 @@ def changePassword(request):
         request.user.set_password(new_password)
         request.user.save()
         template_data['success'] = 'Your password has been successfully changed.'
-        return render(request, 'accounts/changePassword.html', {'template_data': template_data})
+        return render(request, 'home/index.html', {'template_data': template_data})
 
 @login_required
 def logout(request):
