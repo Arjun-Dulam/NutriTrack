@@ -1,250 +1,118 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Us</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-white text-gray-800">
-  <div class="container mx-auto px-4 py-12">
-    <!-- Hero Section -->
-    <section class="mb-20">
-      <div class="flex flex-col items-center text-center">
-        <h1 class="text-4xl font-bold tracking-tight sm:text-5xl mb-6">About Our Company</h1>
-        <p class="max-w-2xl text-lg text-gray-600 mb-8">
-          We're on a mission to transform how businesses operate through innovative technology solutions. Founded in
-          2015, we've been at the forefront of digital transformation.
-        </p>
-        <div class="relative w-full h-[300px] sm:h-[400px] rounded-lg overflow-hidden">
-          <img
-            src="https://placehold.co/1600x800"
-            alt="Our office"
-            class="w-full h-full object-cover"
-          >
-        </div>
-      </div>
-    </section>
+{% extends 'main.html' %}
+{% load static %}
 
-    <!-- Mission & Values -->
-    <section class="mb-20">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-        <div>
-          <h2 class="text-3xl font-bold mb-6">Our Mission</h2>
-          <p class="text-gray-600 mb-4">
-            We believe in creating technology that makes a positive impact on people's lives. Our mission is to
-            develop innovative solutions that help businesses thrive in the digital age.
-          </p>
-          <p class="text-gray-600">
-            By focusing on user experience, performance, and reliability, we create products that our customers love
-            to use every day.
-          </p>
-        </div>
-        <div>
-          <h2 class="text-3xl font-bold mb-6">Our Values</h2>
-          <ul class="space-y-4">
-            <li class="flex items-start">
-              <div class="mr-4 mt-1 bg-blue-100 p-2 rounded-full">
-                <div class="h-2 w-2 rounded-full bg-blue-500"></div>
-              </div>
-              <div>
-                <h3 class="font-medium">Innovation</h3>
-                <p class="text-gray-600">We constantly push boundaries and explore new ideas.</p>
-              </div>
-            </li>
-            <li class="flex items-start">
-              <div class="mr-4 mt-1 bg-blue-100 p-2 rounded-full">
-                <div class="h-2 w-2 rounded-full bg-blue-500"></div>
-              </div>
-              <div>
-                <h3 class="font-medium">Integrity</h3>
-                <p class="text-gray-600">
-                  We're honest, transparent, and committed to doing what's right.
-                </p>
-              </div>
-            </li>
-            <li class="flex items-start">
-              <div class="mr-4 mt-1 bg-blue-100 p-2 rounded-full">
-                <div class="h-2 w-2 rounded-full bg-blue-500"></div>
-              </div>
-              <div>
-                <h3 class="font-medium">Excellence</h3>
-                <p class="text-gray-600">
-                  We hold ourselves to the highest standards in everything we do.
-                </p>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
+{% block title %}
+    About Us - NutriTrack
+{% endblock %}
 
-    <!-- Team Section -->
-    <section class="mb-20">
-      <h2 class="text-3xl font-bold mb-10 text-center">Our Team</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        <!-- Team Member 1 -->
+{% block body %}
+<main class="container mx-auto px-4 py-12">
+
+  <!-- top + banana -->
+  <section class="mb-20 text-center">
+    <h1 class="text-4xl font-bold tracking-tight sm:text-5xl mb-6">About NutriTrack</h1>
+    <p class="max-w-2xl text-lg text-gray-600 mx-auto mb-8">
+      NutriTrack is on a mission to help people live healthier lives through accessible nutrition tools. Founded by health experts and engineers, we believe wellness should be within everyone’s reach.
+    </p>
+    <div class="w-full h-[300px] sm:h-[400px] rounded-lg overflow-hidden">
+      <img src="{% static 'images/banana.jpg' %}" alt="Our mission" class="w-full h-full object-contain">
+    </div>
+  </section>
+
+  <!-- Information -->
+  <section class="mb-20">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <div>
+        <h2 class="text-3xl font-bold mb-6">Our Mission</h2>
+            <p class="text-gray-600 mb-4">
+              At NutriTrack, our mission is to empower individuals to take control of their health through smart, science-backed nutrition tools that fit seamlessly into their everyday lives. We believe that achieving a healthier lifestyle shouldn't be complicated or intimidating, and our platform is designed to make that journey clear, supportive, and sustainable.
+            </p>
+            <p class="text-gray-600 mb-4">
+              From tracking daily food intake and understanding macronutrient balance, to setting personalized health goals, NutriTrack equips users with the knowledge and confidence to make informed dietary choices. Whether you're aiming to lose weight, manage a medical condition, or simply eat better, we provide the digital companion to help you stay consistent and motivated.
+            </p>
+            <p class="text-gray-600">
+              By combining technology, nutritional expertise, and a vibrant user community, NutriTrack fosters long-term wellness habits that go beyond quick fixes—helping people transform their lives from the inside out.
+            </p>
+      </div>
+      <div>
+        <h2 class="text-3xl font-bold mb-6">Our Values</h2>
+        <ul class="space-y-4">
+          <li>
+            <strong>Empathy:</strong> We prioritize user well-being by designing our tools with a deep understanding of individual needs, making nutrition tracking approachable for everyone—regardless of their health journey stage.
+          </li>
+          <li>
+            <strong>Transparency:</strong> We believe in honest data and clear goals. Every feature we offer is grounded in evidence, and we strive to ensure users always know how their progress is being measured and why it matters.
+          </li>
+          <li>
+            <strong>Innovation:</strong> We strive to stay at the forefront of health tech, continuously improving our platform by embracing new technologies, industry trends, and user feedback to drive meaningful health outcomes.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who we are -->
+  <section class="mb-20">
+    <h2 class="text-3xl font-bold mb-10 text-center">Meet Our Team</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {% comment %} make different card for each team member {% endcomment %}
+
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
-          <div class="h-60 w-full">
-            <img
-              src="https://placehold.co/320x240?text=Alex+Johnson"
-              alt="Alex Johnson"
-              class="w-full h-full object-cover"
-            >
-          </div>
-          <div class="p-6">
-            <h3 class="font-bold text-lg">Alex Johnson</h3>
-            <p class="text-sm text-gray-600 mb-2">CEO & Founder</p>
-            <p class="text-sm">10+ years of experience in tech leadership and product development.</p>
-          </div>
+        <img src="{% static 'images/connor.jpg' %}" alt="Connor (Phuoc) Uong" class="w-full h-60 object-cover">
+        <div class="p-6">
+          <h3 class="font-bold text-lg">Connor Uong</h3>
+          <p class="text-sm text-gray-600 mb-2">Frontend Engineer</p>
+          <p class="text-sm">Combining a passion for nutrition with a drive to create inclusive, tech-powered solutions.</p>
+        </div>
         </div>
 
-        <!-- Team Member 2 -->
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
-          <div class="h-60 w-full">
-            <img
-              src="https://placehold.co/320x240?text=Sam+Rivera"
-              alt="Sam Rivera"
-              class="w-full h-full object-cover"
-            >
-          </div>
-          <div class="p-6">
-            <h3 class="font-bold text-lg">Sam Rivera</h3>
-            <p class="text-sm text-gray-600 mb-2">CTO</p>
-            <p class="text-sm">Expert in cloud architecture and distributed systems.</p>
-          </div>
+            <img src="{% static 'images/wei_chen.jpg' %}" alt="Wei Chen Liu" class="w-full h-60 object-cover">
+            <div class="p-6">
+              <h3 class="font-bold text-lg">Wei Chen Liu</h3>
+              <p class="text-sm text-gray-600 mb-2">Backend Engineer</p>
+              <p class="text-sm">Driven by a passion for nutrition and accessibility in tech.</p>
+            </div>
         </div>
 
-        <!-- Team Member 3 -->
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
-          <div class="h-60 w-full">
-            <img
-              src="https://placehold.co/320x240?text=Jamie+Chen"
-              alt="Jamie Chen"
-              class="w-full h-full object-cover"
-            >
-          </div>
-          <div class="p-6">
-            <h3 class="font-bold text-lg">Jamie Chen</h3>
-            <p class="text-sm text-gray-600 mb-2">Design Director</p>
-            <p class="text-sm">Award-winning designer with a passion for user-centered design.</p>
-          </div>
+            <img src="{% static 'images/naya.jpg' %}" alt="Naya Wooldridge" class="w-full h-60 object-cover">
+            <div class="p-6">
+              <h3 class="font-bold text-lg">Naya Wooldridge</h3>
+              <p class="text-sm text-gray-600 mb-2">Frontend Engineer</p>
+              <p class="text-sm">Motivated by a deep commitment to making nutrition more accessible through technology.</p>
+            </div>
         </div>
 
-        <!-- Team Member 4 -->
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
-          <div class="h-60 w-full">
-            <img
-              src="https://placehold.co/320x240?text=Taylor+Morgan"
-              alt="Taylor Morgan"
-              class="w-full h-full object-cover"
-            >
-          </div>
-          <div class="p-6">
-            <h3 class="font-bold text-lg">Taylor Morgan</h3>
-            <p class="text-sm text-gray-600 mb-2">Head of Marketing</p>
-            <p class="text-sm">Specializes in growth marketing and brand development.</p>
-          </div>
+            <img src="{% static 'images/professional.png' %}" alt="Arjun Dulam" class="w-full h-60 object-cover">
+            <div class="p-6">
+              <h3 class="font-bold text-lg">Arjun Dulam</h3>
+              <p class="text-sm text-gray-600 mb-2">Fullstack Engineer</p>
+              <p class="text-sm">Dedicated to bridging the gap between health and technology to make wellness tools accessible for all.</p>
+            </div>
         </div>
+
+
+    </div>
+  </section>
+
+  <!-- Fake Contact Info -->
+  <section class="bg-gray-100 rounded-lg p-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div>
+        <h2 class="text-3xl font-bold mb-6">Contact Us</h2>
+        <p class="text-gray-600 mb-4">Want to collaborate or learn more about NutriTrack? Reach out!</p>
+        <p><strong>Email:</strong> contact@nutritrack.com</p>
+        <p><strong>Phone:</strong> (123) 456-7890</p>
+        <p><strong>Address:</strong> 123 Nutri Track, Atlanta, GA 30318</p>
       </div>
-    </section>
-
-    <!-- Timeline Section -->
-    <section class="mb-20">
-      <h2 class="text-3xl font-bold mb-10 text-center">Our Journey</h2>
-      <div class="space-y-8">
-        <!-- Timeline Item 1 -->
-        <div class="flex">
-          <div class="mr-4 flex flex-col items-center">
-            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500 text-white">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-            </div>
-            <div class="h-full w-0.5 bg-gray-200"></div>
-          </div>
-          <div class="pb-8">
-            <p class="text-sm text-gray-600">2015</p>
-            <h3 class="font-bold text-lg mt-1">Company Founded</h3>
-            <p class="mt-2">Started with a small team of 5 passionate individuals.</p>
-          </div>
-        </div>
-
-        <!-- Timeline Item 2 -->
-        <div class="flex">
-          <div class="mr-4 flex flex-col items-center">
-            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500 text-white">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-            </div>
-            <div class="h-full w-0.5 bg-gray-200"></div>
-          </div>
-          <div class="pb-8">
-            <p class="text-sm text-gray-600">2017</p>
-            <h3 class="font-bold text-lg mt-1">First Major Product Launch</h3>
-            <p class="mt-2">Released our flagship product to critical acclaim.</p>
-          </div>
-        </div>
-
-        <!-- Timeline Item 3 -->
-        <div class="flex">
-          <div class="mr-4 flex flex-col items-center">
-            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500 text-white">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-            </div>
-            <div class="h-full w-0.5 bg-gray-200"></div>
-          </div>
-          <div class="pb-8">
-            <p class="text-sm text-gray-600">2019</p>
-            <h3 class="font-bold text-lg mt-1">International Expansion</h3>
-            <p class="mt-2">Opened offices in Europe and Asia to serve our global customer base.</p>
-          </div>
-        </div>
-
-        <!-- Timeline Item 4 -->
-        <div class="flex">
-          <div class="mr-4 flex flex-col items-center">
-            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500 text-white">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-            </div>
-          </div>
-          <div class="pb-8">
-            <p class="text-sm text-gray-600">2022</p>
-            <h3 class="font-bold text-lg mt-1">Reached 1M Customers</h3>
-            <p class="mt-2">A major milestone in our company's growth journey.</p>
-          </div>
-        </div>
+      <div class="flex flex-col justify-center">
+        <p class="text-sm text-gray-600 mt-4 text-center">We typically respond within 24 hours</p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Contact Section -->
-    <section class="bg-gray-100 rounded-lg p-8">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div>
-          <h2 class="text-3xl font-bold mb-6">Get In Touch</h2>
-          <p class="text-gray-600 mb-6">
-            Have questions about our company or interested in working with us? We'd love to hear from you.
-          </p>
-          <div class="space-y-4">
-            <div class="flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 mr-3 text-gray-500"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-              <p>123 Innovation Street, Tech City, TC 10101</p>
-            </div>
-            <div class="flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 mr-3 text-gray-500"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-              <p>contact@yourcompany.com</p>
-            </div>
-            <div class="flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 mr-3 text-gray-500"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              <p>+1 (555) 123-4567</p>
-            </div>
-          </div>
-        </div>
-        <div class="flex flex-col justify-center">
-          <a href="#" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg text-center transition-colors">
-            Contact Us
-          </a>
-          <p class="text-sm text-gray-600 mt-4 text-center">We typically respond within 24 hours</p>
-        </div>
-      </div>
-    </section>
-  </div>
-</body>
-</html>
+</main>
+{% endblock %}
