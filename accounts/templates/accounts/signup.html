@@ -1,4 +1,6 @@
 {% extends "accounts/base.html" %}
+{% load static %}
+
 {% block content %}
 <div class="p-3 mt-4">
   <div class="container">
@@ -14,6 +16,7 @@
               <button type="submit"
                 class="btn bg-dark text-white">Sign Up
               </button>
+                <a href="{% url 'accounts.login' %}" class="btn btn-success">Login</a>
             </form>
           </div>
         </div>
