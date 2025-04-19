@@ -7,22 +7,27 @@
 # Datasource local storage ignored files
 /dataSources/
 
-#common compiled python files
+# Common compiled python files
 __pycache__/
 *.pyc
 *.pyo
 
-#virtual environment dictionaries
+# Virtual environment directories
 .venv/
 .env/
 
-#ide project files
+# IDE project files
 /.idea/
 workspace.xml
 /dataSources.local.xml
 profiles_settings.xml
 
+# Tailwind
 tailwind.config.js
 tailwindcss
 
-# db.sqlite3
+# Database file
+#db.sqlite3
+
+# Collected static files
+/staticfiles/
