@@ -21,7 +21,7 @@
             <li><a href="{% url 'home.about' %}" class="hover:text-green-400">About</a></li>
             <li class="relative">
                 <button id="user-menu-button" class="flex items-center hover:text-green-400 focus:outline-none">
-                    <img src="{% static 'images/user-icon.jpg' %}" alt="User Icon" class="h-6 w-6 rounded-full">
+                    <img src="{% static 'home/images/user-icon.jpg' %}" alt="User Icon" class="h-6 w-6 rounded-full">
                     <svg id="triangle-icon" class="ml-1 h-3 w-3 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                         <polygon points="0,0 20,0 10,10"></polygon>
                     </svg>
@@ -45,28 +45,7 @@
         <p>&copy; 2025 NutriTrack. All rights reserved.</p>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const userMenuButton = document.getElementById('user-menu-button');
-            const userMenu = document.getElementById('user-menu');
-            const triangleIcon = document.getElementById('triangle-icon');
-
-            userMenuButton.addEventListener('click', () => {
-                const isMenuHidden = userMenu.classList.contains('hidden');
-                userMenu.classList.toggle('hidden', !isMenuHidden);
-                triangleIcon.innerHTML = isMenuHidden
-                    ? '<polygon points="0,7 14,7 7,0"></polygon>'
-                    : '<polygon points="0,0 14,0 7,7"></polygon>';
-            });
-
-            document.addEventListener('click', (event) => {
-                if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
-                    userMenu.classList.add('hidden');
-                    triangleIcon.innerHTML = '<polygon points="0,0 14,0 7,7"></polygon>';
-                }
-            });
-        });
-    </script>
+    <script src="{% static 'home/js/main.js' %}"></script>
 
 </body>
 

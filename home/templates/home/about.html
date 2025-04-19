@@ -1,4 +1,4 @@
-{% extends 'main.html' %}
+{% extends 'home/main.html' %}
 {% load static %}
 
 {% block title %}
@@ -15,7 +15,7 @@
       NutriTrack is on a mission to help people live healthier lives through accessible nutrition tools. Founded by health experts and engineers, we believe wellness should be within everyone’s reach.
     </p>
     <div class="w-full h-[300px] sm:h-[400px] rounded-lg overflow-hidden">
-      <img src="{% static 'images/banana.jpg' %}" alt="Our mission" class="w-full h-full object-contain">
+      <img src="{% static 'home/images/banana.jpg' %}" alt="Our mission" class="w-full h-full object-contain">
     </div>
   </section>
 
@@ -59,7 +59,7 @@
         {% comment %} make different card for each team member {% endcomment %}
 
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
-        <img src="{% static 'images/connor.jpg' %}" alt="Connor (Phuoc) Uong" class="w-full h-60 object-cover">
+        <img src="{% static 'home/images/connor.jpg' %}" alt="Connor (Phuoc) Uong" class="w-full h-60 object-cover">
         <div class="p-6">
           <h3 class="font-bold text-lg">Connor Uong</h3>
           <p class="text-sm text-gray-600 mb-2">Frontend Engineer</p>
@@ -68,7 +68,7 @@
         </div>
 
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            <img src="{% static 'images/wei_chen.jpg' %}" alt="Wei Chen Liu" class="w-full h-60 object-cover">
+            <img src="{% static 'home/images/wei_chen.jpg' %}" alt="Wei Chen Liu" class="w-full h-60 object-cover">
             <div class="p-6">
               <h3 class="font-bold text-lg">Wei Chen Liu</h3>
               <p class="text-sm text-gray-600 mb-2">Backend Engineer</p>
@@ -77,7 +77,7 @@
         </div>
 
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            <img src="{% static 'images/naya.jpg' %}" alt="Naya Wooldridge" class="w-full h-60 object-cover">
+            <img src="{% static 'home/images/naya.jpg' %}" alt="Naya Wooldridge" class="w-full h-60 object-cover">
             <div class="p-6">
               <h3 class="font-bold text-lg">Naya Wooldridge</h3>
               <p class="text-sm text-gray-600 mb-2">Frontend Engineer</p>
@@ -86,7 +86,7 @@
         </div>
 
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            <img src="{% static 'images/arjun.jpg' %}" alt="Arjun Dulam" class="w-full h-60 object-cover">
+            <img src="{% static 'home/images/arjun.jpg' %}" alt="Arjun Dulam" class="w-full h-60 object-cover">
             <div class="p-6">
               <h3 class="font-bold text-lg">Arjun Dulam</h3>
               <p class="text-sm text-gray-600 mb-2">Fullstack Engineer</p>
