@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 
@@ -43,14 +44,16 @@ def signup(request):
             return render(request, 'accounts/signup.html',
                 {'template_data': template_data})
 
-@login_required            
+
 def changePassword(request):
     template_data = {}
     template_data['title'] = 'Change Password'
+
     if request.method == 'GET':
-        return render(request, 'accounts/changePassword.html',
-                      {'template_data': template_data})
+        return render(request, 'accounts/changePassword.html', {'template_data': template_data})
+
     elif request.method == 'POST':
+        username = request.POST.get('username')
         new_password = request.POST.get('new_password')
         confirm_password = request.POST.get('confirm_password')
 
@@ -58,10 +61,15 @@ def changePassword(request):
             template_data['error'] = 'The new passwords do not match.'
             return render(request, 'accounts/changePassword.html', {'template_data': template_data})
 
-        request.user.set_password(new_password)
-        request.user.save()
-        template_data['success'] = 'Your password has been successfully changed.'
-        return render(request, 'home/index.html', {'template_data': template_data})
+        try:
+            user = User.objects.get(username=username)
+            user.set_password(new_password)
+            user.save()
+            template_data['success'] = f'Password for "{username}" was successfully changed.'
+            return render(request, 'home/index.html', {'template_data': template_data})
+        except User.DoesNotExist:
+            template_data['error'] = 'Username not found.'
+            return render(request, 'accounts/changePassword.html', {'template_data': template_data})
 
 @login_required
 def logout(request):
