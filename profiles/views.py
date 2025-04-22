@@ -13,7 +13,7 @@ def edit_profile(request):
             form.save()
             return redirect('profiles.view_profile')
     else:
-        form = UserProfileForm(instance=profile)
+        form = UserProfileForm(instance=profile, user=request.user)
 
     return render(request, 'profiles/edit_profile.html', {'form': form})
 

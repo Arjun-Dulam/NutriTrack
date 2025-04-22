@@ -1,18 +1,11 @@
 from django import forms
 from .models import UserProfile
 
-DIETARY_RESTRICTIONS_CHOICES = [
-    ('vegetarian', 'Vegetarian'),
-    ('allergic_to_seafood', 'Allergic to Seafood'),
-    ('peanuts', 'Allergic to Peanuts'),
-    ('lactose_intolerant', 'Lactose Intolerant'),
-]
-
 class UserProfileForm(forms.ModelForm):
     username = forms.CharField(required=True)
 
     dietary_restrictions = forms.MultipleChoiceField(
-        choices=DIETARY_RESTRICTIONS_CHOICES,
+        choices=UserProfile.DIETARY_RESTRICTIONS_CHOICES,
         widget=forms.CheckboxSelectMultiple,
         required=False,
     )

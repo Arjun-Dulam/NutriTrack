@@ -11,9 +11,9 @@
             <p><strong>Username:</strong> {{ profile.user.username }}</p>
             <p><strong>Height (cm):</strong> {{ profile.height_cm }}</p>
             <p><strong>Weight (kg):</strong> {{ profile.weight_kg }}</p>
-            <p><strong>Sex:</strong> {{ profile.sex }}</p>
+            <p><strong>Sex:</strong> {{ profile.get_sex_display }}</p>
             <p><strong>Dietary Restrictions:</strong> {{ profile.dietary_restrictions }}</p>
-            <p><strong>Activity Level:</strong> {{ profile.activity_level }}</p>
+            <p><strong>Activity Level:</strong> {{ profile.get_activity_level_display }}</p>
         </div>
 
         <div class="mt-6 text-center">
