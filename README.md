@@ -3,7 +3,8 @@
 ## User Stories
 
 - [x] As a user, I want to create an account so that I can securely save my nutrition data.
-- [x] As a user, I want to log in and out of my account so that I can access my nutrition data securely.
+- [x] As a user, I want to log into my account so that I can access my nutrition data securely.
+- [x] As a user, I want to log out of my account so that I can exit my nutrition data and protect my personal information
 - [x] As a user, I want to reset my password in case I forget.
 - [ ] As a user, I want to input my weight, height, and sex so that I can receive recommendations on my water and caloric intake.
 - [ ] As a user, I want to record my meals and snacks so that I can track my nutrition data.
@@ -17,4 +18,7 @@
 - [ ] As a user, I want to switch between light mode and dark mode so that I have a better user experience.
 - [ ] As a user, I want to input exercise sessions with calories burned so that I can track my calorie deficit (calories burned vs calories eaten).
 - [ ] As a user, I want to access NutriTrack from any device so that I can view my nutritional data wherever I am.
-
+- [ ] As a user, I want to be able to change my name displayed on the app so that I can be referred to the way I prefer.
+- [x] As a user, I want to view a contact page so that I can reach out to the developers with any issues I may have with the application.
+- [x] As a user, I want to read about the services NutriTrack offers so that I can determine if I want to create an account.
+- [ ] As a user, I want to see if I am meeting my recommended water and caloric intake so that I have a preset nutritional goal

@@ -19,6 +19,8 @@
         <ul class="flex justify-center space-x-6">
             <li><a href="{% url 'home.index' %}" class="hover:text-green-400">Home</a></li>
             <li><a href="{% url 'home.about' %}" class="hover:text-green-400">About</a></li>
+            <li><a href="{% url 'home.contact' %}" class="hover:text-green-400">Contact</a></li>
+            <li><a href="{% url 'home.services' %}" class="hover:text-green-400">Services</a></li>
             <li class="relative">
                 <button id="user-menu-button" class="flex items-center hover:text-green-400 focus:outline-none">
                     <img src="{% static 'home/images/user-icon.jpg' %}" alt="User Icon" class="h-6 w-6 rounded-full">
@@ -28,8 +30,9 @@
                 </button>
                 <ul id="user-menu" class="absolute hidden bg-white text-black right-0 mt-2 py-2 w-48 border rounded shadow-lg">
                     {% if user.is_authenticated %}
-                    <li><a href="{% url 'accounts.logout' %}" class="block px-4 py-2 hover:bg-gray-200 cursor-pointer">Log Out</a></li>
+                        <li><a href="{% url 'accounts.logout' %}" class="block px-4 py-2 hover:bg-gray-200 cursor-pointer">Log Out</a></li>
                         <li><a href="{% url 'accounts.changePassword' %}" class="block px-4 py-2 hover:bg-gray-200 cursor-pointer">Change Password</a></li>
+                        <li><a href="{% url 'profiles.edit_profile' %}" class="block px-4 py-2 hover:bg-gray-200 cursor-pointer">Edit Profile</a></li>
                     {% else %}
                         <li><a href="{% url 'accounts.login' %}" class="block px-4 py-2 hover:bg-gray-200 cursor-pointer">Log In</a></li>
                         <li><a href="{% url 'accounts.signup' %}" class="block px-4 py-2 hover:bg-gray-200 cursor-pointer">Sign Up</a></li>
