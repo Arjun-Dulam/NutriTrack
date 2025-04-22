@@ -8,3 +8,5 @@ class UserProfileForm(forms.ModelForm):
         widgets = {
             'dietary_restrictions': forms.Textarea(attrs={'rows': 2}),
         }
+        
+        
