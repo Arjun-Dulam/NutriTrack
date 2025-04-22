@@ -20,8 +20,17 @@ class UserProfile(models.Model):
     )
     sex = models.CharField(max_length=1, choices=SEX_CHOICES, null=True, blank=True)
     dietary_restrictions = models.TextField(blank=True)
-    water_intake_liters = models.FloatField(default=0.0)
-    calories_burned = models.IntegerField(default=0)
+    activity_level = models.CharField(
+        max_length=50,
+        choices=[
+            ('sedentary', 'Sedentary'),
+            ('lightly_active', 'Lightly Active'),
+            ('moderately_active', 'Moderately Active'),
+            ('very_active', 'Very Active'),
+            ('super_active', 'Super Active'),
+        ],
+        null=True, blank=True
+    )
 
     def __str__(self):
         return self.user.username
