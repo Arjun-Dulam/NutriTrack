@@ -1,60 +1,76 @@
-<!-- filepath: /Users/adulam/Downloads/NutriTrack/profiles/templates/profiles/edit_profile.html -->
 {% extends "profiles/main.html" %}
 {% block body %}
 <div class="flex items-center justify-center min-h-screen bg-gray-100 px-4">
   <div class="w-full max-w-lg bg-white rounded-2xl shadow-lg p-8 border border-gray-300">
     <h1 class="text-3xl font-bold text-center text-green-700 mb-6">Edit Your Profile</h1>
 
-  <br>
-
-  <div class="border rounded p-4 shadow bg-light">
-    <form method="post">
+    <form method="POST" class="space-y-5">
       {% csrf_token %}
       {{ form.non_field_errors }}
 
       <!-- Height Field -->
-      <div class="form-group">
-        <label for="id_height_cm">Height (cm):</label>
-        <input type="number" name="height_cm" id="id_height_cm" class="form-control" 
-               value="{{ form.height_cm.value|default_if_none:'' }}" min="0" step="1" required
-               oninput="this.value = this.value.replace(/[^0-9]/g, '');">
-        {{ form.height_cm.errors }}
+      <div>
+        <label for="id_height_cm" class="block text-gray-700 mb-1">Height (cm):</label>
+        <input type="number" name="height_cm" id="id_height_cm" value="{{ form.height_cm.value|default_if_none:'' }}" min="0"
+          step="1" required oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+          class="w-full border border-black rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+        {% if form.height_cm.errors %}
+        <p class="text-red-500 text-sm mt-1">{{ form.height_cm.errors.0 }}</p>
+        {% endif %}
       </div>
 
       <!-- Weight Field -->
-      <div class="form-group">
-        <label for="id_weight_kg">Weight (kg):</label>
-        <input type="number" name="weight_kg" id="id_weight_kg" class="form-control" 
-               value="{{ form.weight_kg.value|default_if_none:'' }}" min="0" step="0.1" required>
-        {{ form.weight_kg.errors }}
+      <div>
+        <label for="id_weight_kg" class="block text-gray-700 mb-1">Weight (kg):</label>
+        <input type="number" name="weight_kg" id="id_weight_kg" value="{{ form.weight_kg.value|default_if_none:'' }}" min="0"
+          step="0.1" required
+          class="w-full border border-black rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+        {% if form.weight_kg.errors %}
+        <p class="text-red-500 text-sm mt-1">{{ form.weight_kg.errors.0 }}</p>
+        {% endif %}
       </div>
 
       <!-- Sex Field -->
-      <div class="form-group">
-        <label for="id_sex">Sex:</label>
-        {{ form.sex }}
-        {{ form.sex.errors }}
+      <div>
+        <label for="id_sex" class="block text-gray-700 mb-1">Sex:</label>
+        <div class="w-full border border-black rounded px-3 py-2 focus:outline-none focus:ring-2
+                    focus:ring-green-500">
+          {{form.sex }}
+        </div>
+        {% if form.sex.errors %}
+        <p class="text-red-500 text-sm mt-1">{{ form.sex.errors.0 }}</p>
+        {% endif %}
       </div>
 
       <!-- Dietary Restrictions Field -->
-      <div class="form-group">
-        <label for="id_dietary_restrictions">Dietary Restrictions:</label>
+      <div>
+        <label for="id_dietary_restrictions" class="block text-gray-700 mb-1">Dietary Restrictions:</label>
         <div>
           {{ form.dietary_restrictions }}
         </div>
-        {{ form.dietary_restrictions.errors }}
+        {% if form.dietary_restrictions.errors %}
+        <p class="text-red-500 text-sm mt-1">{{ form.dietary_restrictions.errors.0 }}</p>
+        {% endif %}
       </div>
 
-      <div class="form-group">
-        <label for="id_activity_level">Activity Level:</label>
-        {{ form.activity_level }}
-        {{ form.activity_level.errors }}
+      <!-- Activity Level Field -->
+      <div>
+        <label for="id_activity_level" class="block text-gray-700 mb-1">Activity Level:</label>
+        <div class="w-full border border-black rounded px-3 py-2 focus:outline-none focus:ring-2
+                                focus:ring-green-500">
+          {{ form.activity_level }}
+        </div>
+        {% if form.activity_level.errors %}
+        <p class="text-red-500 text-sm mt-1">{{ form.activity_level.errors.0 }}</p>
+        {% endif %}
       </div>
 
-      <button type="submit" class="btn btn-primary mt-3">Save Profile</button>
+      <!-- Submit Button -->
+      <button type="submit"
+        class="w-full py-2 px-4 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-200">
+        Save Profile
+      </button>
     </form>
   </div>
-
-  <br>
 </div>
 {% endblock %}
