@@ -1,0 +1,79 @@
+{% extends 'home/main.html' %}
+{% load static %}
+
+{% block title %}
+About Us - NutriTrack
+{% endblock %}
+
+{% block body %}
+
+<main>
+    <!-- Who we are -->
+    <section class="my-20 mx-10">
+        <h2 class="text-3xl font-bold mb-10 text-center">Meet Our Team</h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {% comment %} make different card for each team member {% endcomment %}
+
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="{% static 'home/images/connor.jpg' %}" alt="Connor (Phuoc) Uong"
+                    class="w-full h-60 object-cover">
+                <div class="p-6">
+                    <h3 class="font-bold text-lg">Connor Uong</h3>
+                    <p class="text-sm text-gray-600 mb-2">Frontend Engineer</p>
+                    <p class="text-sm">Combining a passion for nutrition with a drive to create inclusive, tech-powered
+                        solutions.</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="{% static 'home/images/wei_chen.jpg' %}" alt="Wei Chen Liu" class="w-full h-60 object-cover">
+                <div class="p-6">
+                    <h3 class="font-bold text-lg">Wei Chen Liu</h3>
+                    <p class="text-sm text-gray-600 mb-2">Backend Engineer</p>
+                    <p class="text-sm">Driven by a passion for nutrition and accessibility in tech.</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="{% static 'home/images/naya.jpg' %}" alt="Naya Wooldridge" class="w-full h-60 object-cover">
+                <div class="p-6">
+                    <h3 class="font-bold text-lg">Naya Wooldridge</h3>
+                    <p class="text-sm text-gray-600 mb-2">Frontend Engineer</p>
+                    <p class="text-sm">Motivated by a deep commitment to making nutrition more accessible through
+                        technology.</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="{% static 'home/images/arjun.jpg' %}" alt="Arjun Dulam" class="w-full h-60 object-cover">
+                <div class="p-6">
+                    <h3 class="font-bold text-lg">Arjun Dulam</h3>
+                    <p class="text-sm text-gray-600 mb-2">Fullstack Engineer</p>
+                    <p class="text-sm">Dedicated to bridging the gap between health and technology to make wellness
+                        tools accessible for all.</p>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+    <!-- Fake Contact Info -->
+    <section class="bg-gray-100 rounded-lg p-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+                <h2 class="text-3xl font-bold mb-6">Contact Us</h2>
+                <p class="text-gray-600 mb-4">Want to collaborate or learn more about NutriTrack? Reach out!</p>
+                <p><strong>Email:</strong> contact@nutritrack.com</p>
+                <p><strong>Phone:</strong> (123) 456-7890</p>
+                <p><strong>Address:</strong> 123 Nutri Track, Atlanta, GA 30318</p>
+            </div>
+            <div class="flex flex-col justify-center">
+                <p class="text-sm text-gray-600 mt-4 text-center">We typically respond within 24 hours</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+{% endblock %}
