@@ -42,20 +42,10 @@
         {{ form.dietary_restrictions.errors }}
       </div>
 
-      <!-- Water Intake Field -->
       <div class="form-group">
-        <label for="id_water_intake_liters">Water Intake (liters):</label>
-        <input type="number" name="water_intake_liters" id="id_water_intake_liters" class="form-control" 
-               value="{{ form.water_intake_liters.value|default_if_none:'' }}" min="0" step="0.1" required>
-        {{ form.water_intake_liters.errors }}
-      </div>
-
-      <!-- Calories Burned Field -->
-      <div class="form-group">
-        <label for="id_calories_burned">Calories Burned:</label>
-        <input type="number" name="calories_burned" id="id_calories_burned" class="form-control" 
-               value="{{ form.calories_burned.value|default_if_none:'' }}" min="0" step="1" required>
-        {{ form.calories_burned.errors }}
+        <label for="id_activity_level">Activity Level:</label>
+        {{ form.activity_level }}
+        {{ form.activity_level.errors }}
       </div>
 
       <button type="submit" class="btn btn-primary mt-3">Save Profile</button>
