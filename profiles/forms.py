@@ -8,5 +8,5 @@ class UserProfileForm(forms.ModelForm):
         widgets = {
             'dietary_restrictions': forms.Textarea(attrs={'rows': 2, 'class': 'form-control'}),
             'sex': forms.Select(attrs={'class': 'form-control', 'required': 'required'}),
-            'activity_level': forms.Select(attrs={'class': 'form-control'}),
+            'activity_level': forms.Select(attrs={'class': 'form-control', 'required': 'required'}),
         }

@@ -15,7 +15,8 @@
       <div class="form-group">
         <label for="id_height_cm">Height (cm):</label>
         <input type="number" name="height_cm" id="id_height_cm" class="form-control" 
-               value="{{ form.height_cm.value|default_if_none:'' }}" min="0" step="1" required>
+               value="{{ form.height_cm.value|default_if_none:'' }}" min="0" step="1" required
+               oninput="this.value = this.value.replace(/[^0-9]/g, '');">
         {{ form.height_cm.errors }}
       </div>
 
