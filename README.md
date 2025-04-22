@@ -19,8 +19,6 @@
 - [ ] As a user, I want to input exercise sessions with calories burned so that I can track my calorie deficit (calories burned vs calories eaten).
 - [ ] As a user, I want to access NutriTrack from any device so that I can view my nutritional data wherever I am.
 - [ ] As a user, I want to be able to change my name displayed on the app so that I can be referred to the way I prefer.
-- [ ] As a user, I want to view a contact page so that I can reach out to the developers with any issues I may have with the application.
-- [ ] As a user, I want to read about the services NutriTrack offers so that I can determine if I want to create an account.
-- [ ] As a user, I want to see if I am meeting my recommended water and caloric intake so that I have a preset nutritional goal.
-
-
+- [x] As a user, I want to view a contact page so that I can reach out to the developers with any issues I may have with the application.
+- [x] As a user, I want to read about the services NutriTrack offers so that I can determine if I want to create an account.
+- [ ] As a user, I want to see if I am meeting my recommended water and caloric intake so that I have a preset nutritional goal
