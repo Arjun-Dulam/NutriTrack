@@ -38,8 +38,9 @@
       <!-- Dietary Restrictions Field -->
       <div class="form-group">
         <label for="id_dietary_restrictions">Dietary Restrictions:</label>
-        <textarea name="dietary_restrictions" id="id_dietary_restrictions" class="form-control" 
-                  rows="2">{{ form.dietary_restrictions.value|default_if_none:'' }}</textarea>
+        <div>
+          {{ form.dietary_restrictions }}
+        </div>
         {{ form.dietary_restrictions.errors }}
       </div>
 
