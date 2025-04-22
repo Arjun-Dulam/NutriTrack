@@ -1,4 +1,4 @@
-{% extends "profiles/main.html" %}
+{% extends "profiles/base.html" %}
 {% block body %}
 <div class="flex items-center justify-center min-h-screen bg-gray-100 px-4">
   <div class="w-full max-w-lg bg-white rounded-2xl shadow-lg p-8 border border-gray-300">
@@ -34,7 +34,7 @@
       <div>
         <label for="id_sex" class="block text-gray-700 mb-1">Sex:</label>
         <div class="w-full border border-black rounded px-3 py-2 focus:outline-none focus:ring-2
-                    focus:ring-green-500">
+                          focus:ring-green-500">
           {{form.sex }}
         </div>
         {% if form.sex.errors %}
@@ -42,27 +42,30 @@
         {% endif %}
       </div>
 
-      <!-- Dietary Restrictions Field -->
-      <div>
-        <label for="id_dietary_restrictions" class="block text-gray-700 mb-1">Dietary Restrictions:</label>
-        <div>
-          {{ form.dietary_restrictions }}
-        </div>
-        {% if form.dietary_restrictions.errors %}
-        <p class="text-red-500 text-sm mt-1">{{ form.dietary_restrictions.errors.0 }}</p>
-        {% endif %}
-      </div>
+
 
       <!-- Activity Level Field -->
       <div>
         <label for="id_activity_level" class="block text-gray-700 mb-1">Activity Level:</label>
         <div class="w-full border border-black rounded px-3 py-2 focus:outline-none focus:ring-2
-                                focus:ring-green-500">
+                                        focus:ring-green-500">
           {{ form.activity_level }}
         </div>
         {% if form.activity_level.errors %}
         <p class="text-red-500 text-sm mt-1">{{ form.activity_level.errors.0 }}</p>
         {% endif %}
+        </div>
+        
+        
+        <!-- Dietary Restrictions Field -->
+        <div>
+          <label for="id_dietary_restrictions" class="block text-gray-700 mb-1">Dietary Restrictions:</label>
+          <div>
+            {{ form.dietary_restrictions }}
+          </div>
+          {% if form.dietary_restrictions.errors %}
+          <p class="text-red-500 text-sm mt-1">{{ form.dietary_restrictions.errors.0 }}</p>
+          {% endif %}
       </div>
 
       <!-- Submit Button -->
@@ -70,7 +73,7 @@
         class="w-full py-2 px-4 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-200">
         Save Profile
       </button>
-    </form>
-  </div>
+      </form>
+      </div>
 </div>
 {% endblock %}
