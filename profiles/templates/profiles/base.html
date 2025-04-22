@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>NutriTrack</title>
+</head>
+
+<body class="font-sans bg-gray-100">
+    <div class="flex min-h-screen">
+
+        <!-- Sidebar / Navbar -->
+        <nav class="bg-gray-800 text-white w-64 flex-shrink-0">
+            <div class="p-6 text-center">
+                <h1 class="text-3xl font-bold text-green-400">NutriTrack</h1>
+
+            </div>
+            <ul class="space-y-4 px-6">
+                <li><a href="{% url 'home.index' %}" class="block hover:text-green-400">Home</a></li>
+                <li><a href="{% url 'home.about' %}" class="block hover:text-green-400">About</a></li>
+                <li><a href="{% url 'home.contact' %}" class="block hover:text-green-400">Contact</a></li>
+                <li><a href="{% url 'home.services' %}" class="block hover:text-green-400">Services</a></li>
+                <li><a href="{% url 'accounts.logout' %}" class="block hover:text-green-400">Log Out</a></li>
+                <li><a href="{% url 'accounts.changePassword' %}" class=" block hover:text-green-400">Change
+                        Password</a></li>
+            </ul>
+
+        </nav>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col">
+            <!-- Header -->
+            <header class="bg-green-600 text-white py-4 px-6">
+                <h2 class="text-2xl font-bold">Dashboard</h2>
+            </header>
+
+            <!-- Body Content -->
+            <main class="flex-1 p-6">
+                {% block body %}{% endblock %}
+            </main>
+
+            <!-- Footer -->
+            <footer class="bg-gray-800 text-white text-center py-4">
+                <p>&copy; 2025 NutriTrack. All rights reserved.</p>
+            </footer>
+        </div>
+    </div>
+
+    <script src="{% static 'home/js/main.js' %}"></script>
+</body>
+
+</html>
