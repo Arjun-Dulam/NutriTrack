@@ -6,36 +6,40 @@
 {% endblock %}
 
 {% block body %}
+<main class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-4">Welcome to NutriTrack</h1>
 
-    <main class="container mx-auto px-4 py-8">
-        <section id="home" class="mb-12">
-            <h2 class="text-3xl font-bold mb-4">Welcome to NutriTrack</h2>
-            <p class="mb-6">Take control of your nutrition and achieve your health goals with NutriTrack. Our easy-to-use platform helps you track your daily intake, set goals, and make informed decisions about your diet.</p>
+    <!-- LLM Question Form -->
+    <form method="post" class="mb-8">
+        {% csrf_token %}
+        <label for="question" class="block text-gray-700 mb-2">Ask a question:</label>
+        <input type="text" id="question" name="question" placeholder="Enter your question"
+            class="w-full border border-gray-300 rounded px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-green-500"
+            required>
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+            Submit
+        </button>
+    </form>
 
-        </section>
+    <!-- Display LLM Response -->
+    {% if joke %}
+    <div class="bg-white border border-gray-300 rounded p-4 shadow">
+        <h2 class="text-xl font-bold mb-2">LLM Response:</h2>
+        <p class="text-gray-700">{{ joke }}</p>
+    </div>
+    {% endif %}
 
-        <section id="features" class="mb-12">
-            <h2 class="text-3xl font-bold mb-4">Features</h2>
-            <ul class="list-disc pl-6 space-y-2">
-                <li>Track your daily calorie intake</li>
-                <li>Monitor macronutrients (protein, carbs, fats)</li>
-                <li>Set personalized nutrition goals</li>
-                <li>Access a comprehensive food database</li>
-                <li>View detailed nutrition reports and insights</li>
-            </ul>
-        </section>
-
-        <section id="about" class="mb-12">
-            <h2 class="text-3xl font-bold mb-4">About NutriTrack</h2>
-            <p>NutriTrack was founded by a team of nutritionists and tech enthusiasts who believe that everyone should have access to tools that make healthy eating easier. Our mission is to empower individuals to make informed decisions about their diet and improve their overall well-being.</p>
-        </section>
-
-        <section id="contact" class="mb-12">
-            <h2 class="text-3xl font-bold mb-4">Contact Us</h2>
-            <p class="mb-2">Have questions or feedback? We'd love to hear from you!</p>
-            <p class="mb-1"><span class="font-bold">Email:</span> info@nutritrack.com</p>
-            <p><span class="font-bold">Phone:</span> (123) 456-7890</p>
-        </section>
-    </main>
-
+    <!-- User Profile Info -->
+    {% if calories %}
+    <div class="mt-8">
+        <h2 class="text-xl font-bold mb-2">Your Profile:</h2>
+        <p>Sex: {{ sex }}</p>
+        <p>Height: {{ height_cm }} cm</p>
+        <p>Weight: {{ weight_kg }} kg</p>
+        <p>Activity Level: {{ activity_level }}</p>
+        <p>Maintenance Calories: {{ calories }} kcal/day</p>
+        <p>Recommended water intake: {{ water_intake }} liters/day</p>
+        </div>
+    {% endif %}
+</main>
 {% endblock %}
