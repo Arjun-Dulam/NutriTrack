@@ -64,6 +64,22 @@
 
     <script src="{% static 'home/js/main.js' %}"></script>
 
+    <script>
+        // Automatically hide messages after 5 seconds
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const messageElements = document.querySelectorAll('.messages .alert'); // Select message list items
+            if (messageElements.length > 0) {
+                setTimeout(() => {
+                    messageElements.forEach(el => {
+                        // You can add a fade-out effect here if desired
+                        el.style.display = 'none'; // Hide the element
+                        // Or remove it completely: el.remove(); 
+                    });
+                }, 3000); // 5000 milliseconds = 5 seconds
+            }
+        });
+    </script>
+
 </body>
 
 </html>
