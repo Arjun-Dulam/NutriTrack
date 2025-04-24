@@ -3,7 +3,7 @@ from .forms import UserProfileForm
 from .models import UserProfile
 from django.contrib.auth.decorators import login_required
 
-@login_required
+# @login_required
 def edit_profile(request):
     profile, created = UserProfile.objects.get_or_create(user=request.user)
 
