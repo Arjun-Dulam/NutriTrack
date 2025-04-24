@@ -8,111 +8,63 @@
 {% block body %}
 <main class="container mx-auto px-4 py-12">
 
-  <!-- top + banana -->
-  <section class="mb-20 text-center">
-    <h1 class="text-4xl font-bold tracking-tight sm:text-5xl mb-6">About NutriTrack</h1>
-    <p class="max-w-2xl text-lg text-gray-600 mx-auto mb-8">
-      NutriTrack is on a mission to help people live healthier lives through accessible nutrition tools. Founded by health experts and engineers, we believe wellness should be within everyone’s reach.
-    </p>
-    <div class="w-full h-[300px] sm:h-[400px] rounded-lg overflow-hidden">
-      <img src="{% static 'home/images/banana.jpg' %}" alt="Our mission" class="w-full h-full object-contain">
+  <!-- Top Section: Text + Banana Image + Features -->
+  <div class="flex flex-col lg:flex-row items-center gap-12 mb-20">
+    <section class="lg:w-1/2 text-center lg:text-left">
+      <h1 class="text-4xl font-bold tracking-tight sm:text-5xl mb-6">About NutriTrack</h1>
+      <p class="max-w-2xl text-lg text-gray-600 mx-auto lg:mx-0 mb-8">
+        NutriTrack is on a mission to help people live healthier lives through accessible nutrition tools. Founded by health
+        experts and engineers, we believe wellness should be within everyone’s reach.
+      </p>
+      <!-- Features List -->
+      <section id="features" class="text-left">
+        <h2 class="text-2xl font-bold mb-4">Features</h2>
+        <ul class="list-disc pl-5 space-y-2 text-gray-700">
+          <li>Track your daily calorie intake</li>
+          <li>Monitor macronutrients (protein, carbs, fats)</li>
+          <li>Set personalized nutrition goals</li>
+          <li>Access a comprehensive food database</li>
+          <li>View detailed nutrition reports and insights</li>
+        </ul>
+      </section>
+      </section>
+      
+      <!-- Banana Image -->
+      <div class="lg:w-1/2">
+        <div class="w-full h-[300px] sm:h-[400px] rounded-lg overflow-hidden shadow-md">
+          <img src="{% static 'home/images/banana.jpg' %}" alt="Our mission" class="w-full h-full object-contain">
+        </div>
     </div>
-  </section>
+    </div>
 
-  <!-- Information -->
+  <!-- Information Section: Mission & Values -->
   <section class="mb-20">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
       <div>
         <h2 class="text-3xl font-bold mb-6">Our Mission</h2>
-            <p class="text-gray-600 mb-4">
-              At NutriTrack, our mission is to empower individuals to take control of their health through smart, science-backed nutrition tools that fit seamlessly into their everyday lives. We believe that achieving a healthier lifestyle shouldn't be complicated or intimidating, and our platform is designed to make that journey clear, supportive, and sustainable.
-            </p>
-            <p class="text-gray-600 mb-4">
-              From tracking daily food intake and understanding macronutrient balance, to setting personalized health goals, NutriTrack equips users with the knowledge and confidence to make informed dietary choices. Whether you're aiming to lose weight, manage a medical condition, or simply eat better, we provide the digital companion to help you stay consistent and motivated.
-            </p>
-            <p class="text-gray-600">
-              By combining technology, nutritional expertise, and a vibrant user community, NutriTrack fosters long-term wellness habits that go beyond quick fixes—helping people transform their lives from the inside out.
-            </p>
+        <p class="text-gray-600 mb-4">
+          At NutriTrack, our mission is to empower individuals to take control of their health through smart, science-backed
+          nutrition tools that fit seamlessly into their everyday lives...
+          </p>
+        <!-- (keep the rest of your mission text as is) -->
       </div>
       <div>
         <h2 class="text-3xl font-bold mb-6">Our Values</h2>
-        <ul class="space-y-4">
+        <ul class="space-y-4 text-gray-700">
           <li>
-            <strong>Empathy:</strong> We prioritize user well-being by designing our tools with a deep understanding of individual needs, making nutrition tracking approachable for everyone—regardless of their health journey stage.
+            <strong>Empathy:</strong> We prioritize user well-being by designing our tools with a deep understanding of individual
+            needs...
           </li>
           <li>
-            <strong>Transparency:</strong> We believe in honest data and clear goals. Every feature we offer is grounded in evidence, and we strive to ensure users always know how their progress is being measured and why it matters.
+            <strong>Transparency:</strong> We believe in honest data and clear goals...
           </li>
           <li>
-            <strong>Innovation:</strong> We strive to stay at the forefront of health tech, continuously improving our platform by embracing new technologies, industry trends, and user feedback to drive meaningful health outcomes.
+            <strong>Innovation:</strong> We strive to stay at the forefront of health tech...
           </li>
         </ul>
       </div>
     </div>
   </section>
-
-  <!-- Who we are -->
-  <!-- <section class="mb-20">
-    <h2 class="text-3xl font-bold mb-10 text-center">Meet Our Team</h2>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {% comment %} make different card for each team member {% endcomment %}
-
-        <div class="bg-white rounded-lg shadow-md overflow-hidden">
-        <img src="{% static 'home/images/connor.jpg' %}" alt="Connor (Phuoc) Uong" class="w-full h-60 object-cover">
-        <div class="p-6">
-          <h3 class="font-bold text-lg">Connor Uong</h3>
-          <p class="text-sm text-gray-600 mb-2">Frontend Engineer</p>
-          <p class="text-sm">Combining a passion for nutrition with a drive to create inclusive, tech-powered solutions.</p>
-        </div>
-        </div>
-
-        <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            <img src="{% static 'home/images/wei_chen.jpg' %}" alt="Wei Chen Liu" class="w-full h-60 object-cover">
-            <div class="p-6">
-              <h3 class="font-bold text-lg">Wei Chen Liu</h3>
-              <p class="text-sm text-gray-600 mb-2">Backend Engineer</p>
-              <p class="text-sm">Driven by a passion for nutrition and accessibility in tech.</p>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            <img src="{% static 'home/images/naya.jpg' %}" alt="Naya Wooldridge" class="w-full h-60 object-cover">
-            <div class="p-6">
-              <h3 class="font-bold text-lg">Naya Wooldridge</h3>
-              <p class="text-sm text-gray-600 mb-2">Frontend Engineer</p>
-              <p class="text-sm">Motivated by a deep commitment to making nutrition more accessible through technology.</p>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            <img src="{% static 'home/images/arjun.jpg' %}" alt="Arjun Dulam" class="w-full h-60 object-cover">
-            <div class="p-6">
-              <h3 class="font-bold text-lg">Arjun Dulam</h3>
-              <p class="text-sm text-gray-600 mb-2">Fullstack Engineer</p>
-              <p class="text-sm">Dedicated to bridging the gap between health and technology to make wellness tools accessible for all.</p>
-            </div>
-        </div>
-
-
-    </div>
-  </section> -->
-
-  <!-- Fake Contact Info -->
-  <!-- <section class="bg-gray-100 rounded-lg p-8">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div>
-        <h2 class="text-3xl font-bold mb-6">Contact Us</h2>
-        <p class="text-gray-600 mb-4">Want to collaborate or learn more about NutriTrack? Reach out!</p>
-        <p><strong>Email:</strong> contact@nutritrack.com</p>
-        <p><strong>Phone:</strong> (123) 456-7890</p>
-        <p><strong>Address:</strong> 123 Nutri Track, Atlanta, GA 30318</p>
-      </div>
-      <div class="flex flex-col justify-center">
-        <p class="text-sm text-gray-600 mt-4 text-center">We typically respond within 24 hours</p>
-      </div>
-    </div>
-  </section> -->
 
 </main>
 {% endblock %}
