@@ -6,12 +6,40 @@
 {% endblock %}
 
 {% block body %}
+<main class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-4">Welcome to NutriTrack</h1>
 
-    <main class="container mx-auto px-4 py-8">
-        <p> welcome to main page</p>
-        <div>
-            {{ joke }}
+    <!-- LLM Question Form -->
+    <form method="post" class="mb-8">
+        {% csrf_token %}
+        <label for="question" class="block text-gray-700 mb-2">Ask a question:</label>
+        <input type="text" id="question" name="question" placeholder="Enter your question"
+            class="w-full border border-gray-300 rounded px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-green-500"
+            required>
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+            Submit
+        </button>
+    </form>
+
+    <!-- Display LLM Response -->
+    {% if joke %}
+    <div class="bg-white border border-gray-300 rounded p-4 shadow">
+        <h2 class="text-xl font-bold mb-2">LLM Response:</h2>
+        <p class="text-gray-700">{{ joke }}</p>
+    </div>
+    {% endif %}
+
+    <!-- User Profile Info -->
+    {% if calories %}
+    <div class="mt-8">
+        <h2 class="text-xl font-bold mb-2">Your Profile:</h2>
+        <p>Sex: {{ sex }}</p>
+        <p>Height: {{ height_cm }} cm</p>
+        <p>Weight: {{ weight_kg }} kg</p>
+        <p>Activity Level: {{ activity_level }}</p>
+        <p>Maintenance Calories: {{ calories }} kcal/day</p>
+        <p>Recommended water intake: {{ water_intake }} liters/day</p>
         </div>
-    </main>
-
+    {% endif %}
+</main>
 {% endblock %}
