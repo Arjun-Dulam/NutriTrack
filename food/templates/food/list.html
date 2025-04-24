@@ -1,11 +1,10 @@
-<!-- filepath: /Users/adulam/Downloads/NutriTrack/food/templates/food/food_list.html -->
 {% extends "home/main.html" %}
 {% load static %}
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}Search Results{% endblock %}</title> <!-- Optional: Update title -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{% static 'food/css/styles.css' %}">
 </head>
@@ -16,17 +15,26 @@
     <button type="submit">Search</button>
 </form>
 
-<h1>Food Entries</h1>
+<!-- Changed H1 to be more specific -->
+<h1>Search Results for "{{ query }}"</h1>
 
-<!-- Display message if no query or results -->
+<!-- Display message or results -->
 {% if message %}
     <p>{{ message }}</p>
 {% elif food_items %}
     <ul>
         {% for item in food_items %}
             <li>
-                <strong>{{ item.title }}</strong><br>
-                <!-- Removed the image display -->
+                <strong>{{ item.title }}</strong>
+                <!-- Add the form for adding this item to the log -->
+                <form method="post" action="{% url 'add_food_log' %}" style="display: inline; margin-left: 10px;">
+                    {% csrf_token %}
+                    <!-- Hidden fields to send food data to the view -->
+                    <input type="hidden" name="food_name" value="{{ item.title }}">
+                    <!-- Ensure item.id contains the Spoonacular Recipe ID -->
+                    <input type="hidden" name="spoonacular_id" value="{{ item.id }}">
+                    <button type="submit">Add to Log</button>
+                </form>
             </li>
         {% endfor %}
     </ul>
