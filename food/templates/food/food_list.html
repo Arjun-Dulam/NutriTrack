@@ -1,0 +1,25 @@
+{% extends "home/main.html" %}
+
+{% block body %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food List</title>
+</head>
+<body>
+    <h1>Food Entries</h1>
+    <ul>
+        {% for item in food_items %}
+            <li>
+                <strong>{{ item.title }}</strong><br>
+                <img src="{{ item.image }}" alt="{{ item.title }}" style="width: 100px;">
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
+{% endblock %}
