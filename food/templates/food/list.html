@@ -1,5 +1,14 @@
 <!-- filepath: /Users/adulam/Downloads/NutriTrack/food/templates/food/food_list.html -->
 {% extends "home/main.html" %}
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'food/css/styles.css' %}">
+</head>
 
 {% block body %}
 <form method="get" action="{% url 'food.list' %}">
