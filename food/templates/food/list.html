@@ -2,7 +2,7 @@
 {% extends "home/main.html" %}
 
 {% block body %}
-<form method="get" action="{% url 'food_list' %}">
+<form method="get" action="{% url 'food.list' %}">
     <input type="text" name="query" placeholder="Search for food..." value="{{ query }}">
     <button type="submit">Search</button>
 </form>
