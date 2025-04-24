@@ -1,8 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect # Added redirect
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from profiles.models import UserProfile
 import requests
+from .models import FoodLog # Import the FoodLog model
+from django.utils import timezone # Import timezone
 
 @login_required
 def food_list(request):
@@ -65,3 +67,77 @@ def food_list(request):
 
     # Render the results in the template
     return render(request, 'food/list.html', {'food_items': food_items, 'query': query})
+
+
+
+@login_required
+def add_food_log(request):
+    if request.method == 'POST':
+        food_name = request.POST.get('food_name')
+        # Ensure the ID from the form is treated as an integer if it exists
+        spoonacular_id_str = request.POST.get('spoonacular_id')
+        spoonacular_id = int(spoonacular_id_str) if spoonacular_id_str and spoonacular_id_str.isdigit() else None
+
+        # --- Fetch detailed nutrition info from Spoonacular using Recipe ID ---
+        calories = None
+        protein_g = None
+        carbs_g = None
+        fat_g = None
+
+        # Use the recipe ID (spoonacular_id) to get nutrition info
+        if spoonacular_id:
+            try:
+                api_key = settings.SPOONACULAR_API_KEY
+                # Use the recipe nutrition endpoint
+                url = f"https://api.spoonacular.com/recipes/{spoonacular_id}/nutritionWidget.json?apiKey={api_key}"
+                response = requests.get(url)
+                response.raise_for_status() # Raise HTTPError for bad responses (4xx or 5xx)
+                data = response.json()
+
+                # Extract nutrition info - Adjust keys based on actual API response
+                calories = data.get('calories') # Often a string like "350 kcal"
+                protein_g = data.get('protein') # Often a string like "20g"
+                carbs_g = data.get('carbs')   # Often a string like "40g"
+                fat_g = data.get('fat')     # Often a string like "15g"
+
+                # Basic parsing (remove 'kcal' or 'g', convert to float)
+                # More robust parsing might be needed depending on API variations
+                try:
+                    calories = float(calories.replace('kcal', '').strip()) if calories else None
+                    protein_g = float(protein_g.replace('g', '').strip()) if protein_g else None
+                    carbs_g = float(carbs_g.replace('g', '').strip()) if carbs_g else None
+                    fat_g = float(fat_g.replace('g', '').strip()) if fat_g else None
+                except (ValueError, AttributeError):
+                     # Handle cases where parsing fails or data is not as expected
+                     print(f"Could not parse nutrition data: Cals={calories}, Prot={protein_g}, Carb={carbs_g}, Fat={fat_g}")
+                     calories, protein_g, carbs_g, fat_g = None, None, None, None # Reset on failure
+
+            except requests.exceptions.RequestException as e:
+                print(f"Error fetching nutrition data from Spoonacular: {e}")
+                # Optionally add a Django message: messages.error(request, "Could not fetch nutrition details.")
+            except Exception as e:
+                print(f"Error processing nutrition data: {e}")
+                # Optionally add a Django message
+
+        # --- Create and save the FoodLog entry ---
+        if food_name: # Ensure we have at least a name
+            FoodLog.objects.create(
+                user=request.user,
+                food_name=food_name,
+                spoonacular_id=spoonacular_id,
+                calories=calories,
+                protein_g=protein_g,
+                carbs_g=carbs_g,
+                fat_g=fat_g,
+                log_date=timezone.now() # Use timezone.now()
+                # meal_type could be added later via a dropdown in the form
+            )
+            # Redirect after POST to prevent duplicate submissions
+            # Redirect to a page showing the log, or back to search for now
+            # messages.success(request, f"'{food_name}' added to your log.") # Example message
+            return redirect('food.list') # Redirect back to the search results/list page
+
+    # If not POST or if required data is missing, redirect
+    # Or render an error message
+    # messages.error(request, "Invalid request to add food log.") # Example message
+    return redirect('food.list') # Redirect back
