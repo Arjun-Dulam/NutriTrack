@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 @login_required
 def logout(request):
@@ -24,7 +25,8 @@ def login(request):
             return render(request, 'accounts/login.html', {'template_data': template_data})
         else:
             auth_login(request, user)
-            return redirect('profiles.edit_profile')
+            messages.success(request, f'Welcome back, {user.username}! You have successfully logged in.') 
+            return redirect('home.index')
 
 
 def signup(request):
