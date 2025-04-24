@@ -8,6 +8,15 @@
   </head>
   <body>
     <!-- Header -->
+    {% if messages %}
+        <ul class="messages" style="list-style: none; padding: 0; margin: 1em 0;">
+            {% for message in messages %}
+                <li{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %} style="padding: 10px; margin-bottom: 10px; border: 1px solid transparent; border-radius: 4px;">
+                    {{ message }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     {% block content %}
     {% endblock content %}
     <!-- Footer -->
