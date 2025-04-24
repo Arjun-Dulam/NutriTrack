@@ -11,7 +11,7 @@ client = Groq(
 
 # Create your views here.
 
-
+@login_required
 def index(request):
     # Fetch user profile
     try:
@@ -114,7 +114,6 @@ def calculate_maintenance_calories(weight_kg, height_cm, sex, activity_level, ag
     tdee = bmr * activity_multipliers[activity_level]
 
     return round(tdee, 2)
-
 
 def calculate_water_intake(weight_kg):
     """
