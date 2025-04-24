@@ -40,7 +40,7 @@ def signup(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('accounts.login')
+            return redirect('profiles.edit_profile')
         else:
             template_data['form'] = form
             return render(request, 'accounts/signup.html',
