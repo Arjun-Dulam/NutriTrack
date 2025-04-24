@@ -7,7 +7,7 @@
 - [x] As a user, I want to log into my account so that I can access my nutrition data securely.
 - [x] As a user, I want to log out of my account so that I can exit my nutrition data and protect my personal information
 - [x] As a user, I want to reset my password in case I forget.
-- [ ] As a user, I want to view a welcome message when I log in so that I know I've successfully accessed the app.
+- [x] As a user, I want to view a welcome message when I log in so that I know I've successfully accessed the app.
 - [x] As a user, I want to see a confirmation message when I log out so that I know I’ve successfully signed out and been redirected to the homepage.
 - [x] As a user, I want to be able to change my name displayed on the app so that I can be referred to the way I prefer.
 - [x] As a user, I want to input my weight, height, and sex so that I can receive recommendations on my water and caloric intake.
