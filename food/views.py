@@ -24,12 +24,5 @@ def food_list(request):
     data = response.json()
     food_items = data.get('menuItems', [])
 
-    # Handle missing images by assigning a placeholder
-    for item in food_items:
-        if not item.get('image'):  # If the image field is missing or empty
-            item['image'] = 'https://via.placeholder.com/100'  # Placeholder image URL
-
-    for item in food_items:
-        print(item.get('image', 'No image available'))
-    
+    # No need to handle images anymore
     return render(request, 'food/food_list.html', {'food_items': food_items, 'query': query})
