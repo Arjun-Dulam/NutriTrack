@@ -12,7 +12,7 @@ def food_list(request):
     url = f"https://api.spoonacular.com/food/menuItems/search"
     params = {
         'query': query,
-        'number': 100,
+        'number': 5,
         'apiKey': api_key,
     }
     
@@ -23,10 +23,13 @@ def food_list(request):
     
     data = response.json()
     food_items = data.get('menuItems', [])
-    
+
+    # Handle missing images by assigning a placeholder
     for item in food_items:
-        if not item.get('image'):
-            item['image'] = 'static/imageNotFound.jpg'
-            
-    return render(request, 'food/food_list.html', {'food_items': data.get('menuItems', []), 'query': query})
+        if not item.get('image'):  # If the image field is missing or empty
+            item['image'] = 'https://via.placeholder.com/100'  # Placeholder image URL
+
+    for item in food_items:
+        print(item.get('image', 'No image available'))
     
+    return render(request, 'food/food_list.html', {'food_items': food_items, 'query': query})
