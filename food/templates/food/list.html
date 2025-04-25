@@ -40,6 +40,15 @@
                 </li>
             {% endfor %}
         </ul>
+
+        <!-- Load More Button -->
+        <form method="get" action="{% url 'food.list' %}" class="mt-8 text-center">
+            <input type="hidden" name="query" value="{{ query }}">
+            <input type="hidden" name="page" value="{{ page|add:1 }}">  <!-- Increment the page -->
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-200">
+                Load More
+            </button>
+        </form>
     {% elif query %}
         <p class="text-gray-600">No results found for "{{ query }}". Try searching for something else!</p>
     {% endif %}
