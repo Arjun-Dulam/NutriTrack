@@ -29,25 +29,6 @@ def login(request):
             return redirect('home.index')
 
 
-# def signup(request):
-#     template_data = {}
-#     template_data['title'] = 'Sign Up'
-#     if request.method == 'GET':
-#         template_data['form'] = UserCreationForm()
-#         return render(request, 'accounts/signup.html',
-#             {'template_data': template_data})
-#     elif request.method == 'POST':
-#         form = UserCreationForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('profiles.edit_profile')
-#         else:
-#             template_data['form'] = form
-#             return render(request, 'accounts/signup.html',
-#                 {'template_data': template_data})
-
-
-# Signup view with redirect to edit_profile
 def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
