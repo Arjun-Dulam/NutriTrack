@@ -19,7 +19,7 @@
 - [ ] As a user, I want to view simple, easy-to-understand reports of my nutrition with graphs so that I can identify how to improve my eating habits.
 - [] As a user, I want to receive personalized dietary tips based on my food logs and goals so that I can improve my eating habits.
 - [x] As a user, I want to store dietary restrictions (e.g., vegan, gluten-free) so that my meal suggestions are compatible.
-- [ ] As a user, I want to log how much water I drink so that I can identify how to improve and maintain my water intake.
+- [x] As a user, I want to log how much water I drink so that I can identify how to improve and maintain my water intake.
 - [ ] As a user, I want to input exercise sessions with calories burned so that I can track my calorie deficit (calories burned vs calories eaten).
 - [x] As a user, I want to access NutriTrack from any device so that I can view my nutritional data wherever I am.
 - [x] As a user, I want to view a contact page so that I can reach out to the developers with any issues I may have with the application.
