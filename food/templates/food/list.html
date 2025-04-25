@@ -52,7 +52,14 @@
                 <li class="flex items-center justify-between bg-white border border-gray-300 rounded p-4 shadow">
                     <div>
                         <strong class="text-lg text-green-700">{{ log.food_name }}</strong>
-                        <p class="text-sm text-gray-600">Logged on {{ log.log_date|date:"M d, Y H:i" }}</p>
+                        <p class="text-sm text-gray-600">
+                            Logged on {{ log.log_date|date:"M d, Y H:i" }}
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">
+                            Calories: <strong>{{ log.calories|default:"N/A" }}</strong>
+                        </p>
                     </div>
                 </li>
             {% endfor %}
