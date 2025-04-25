@@ -1,7 +1,5 @@
-<!-- filepath: /Users/adulam/Downloads/NutriTrack/food/templates/food/list.html -->
 {% extends "food/main.html" %}
 {% load static %}
-
 {% block body %}
 <div class="container mx-auto px-4 py-8">
     <!-- Search Form -->
@@ -14,16 +12,16 @@
         </button>
     </form>
 
-    <!-- Search Heading - Conditionally display -->
-    {% if query %} {# Only show heading if a query was made #}
-    <h1 class="text-2xl font-bold text-gray-800 mb-6">Search Results for "{{ query }}"</h1>
+    <!-- Search Heading -->
+    {% if query %}
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">Search Results for "{{ query }}"</h1>
     {% endif %}
 
     <!-- Display Messages or Results -->
     {% if message %}
         <p class="text-gray-700">{{ message }}</p>
     {% elif food_items %}
-        <ul class="space-y-4">
+        <ul id="food-results" class="space-y-4">
             {% for item in food_items %}
                 <li class="flex items-center justify-between bg-white border border-gray-300 rounded p-4 shadow">
                     <div>
@@ -40,8 +38,89 @@
                 </li>
             {% endfor %}
         </ul>
-    {% elif query %} {# Show 'no results' only if a query was actually made #}
+
+        <!-- Load More Button -->
+        <button id="load-more" data-page="{{ page|add:1 }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-200 mt-8">
+            Load More
+        </button>
+    {% elif query %}
         <p class="text-gray-600">No results found for "{{ query }}". Try searching for something else!</p>
     {% endif %}
+
+    <h2 class="text-2xl font-bold text-gray-800 mt-12 mb-4">Your Logged Foods</h2>
+    {% if logged_foods %}
+        <ul class="space-y-4">
+            {% for log in logged_foods %}
+                <li class="flex items-center justify-between bg-white border border-gray-300 rounded p-4 shadow">
+                    <div>
+                        <strong class="text-lg text-green-700">{{ log.food_name }}</strong>
+                        <p class="text-sm text-gray-600">
+                            Logged on {{ log.log_date|date:"M d, Y H:i" }}
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">
+                            Calories: <strong>{{ log.calories|default:"N/A" }}</strong>
+                        </p>
+                    </div>
+                    <form method="post" action="{% url 'remove_food_log' log.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition duration-200">
+                            Remove
+                        </button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-gray-600">You haven't logged any foods yet.</p>
+    {% endif %}
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const loadMoreButton = document.getElementById('load-more');
+        const foodResultsContainer = document.getElementById('food-results');
+
+        if (loadMoreButton) {
+            loadMoreButton.addEventListener('click', function () {
+                const page = loadMoreButton.getAttribute('data-page');
+                const query = new URLSearchParams(window.location.search).get('query');
+
+                fetch(`/food/search/?query=${query}&page=${page}`, {
+                    headers: {
+                        'x-requested-with': 'XMLHttpRequest'  // Indicate AJAX request
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.food_items) {
+                        data.food_items.forEach(item => {
+                            const listItem = document.createElement('li');
+                            listItem.className = 'flex items-center justify-between bg-white border border-gray-300 rounded p-4 shadow';
+                            listItem.innerHTML = `
+                                <div>
+                                    <strong class="text-lg text-green-700">${item.title}</strong>
+                                </div>
+                                <form method="post" action="{% url 'add_food_log' %}" class="flex items-center space-x-2">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="food_name" value="${item.title}">
+                                    <input type="hidden" name="spoonacular_id" value="${item.id}">
+                                    <button type="submit" class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 transition duration-200">
+                                        Add to Log
+                                    </button>
+                                </form>
+                            `;
+                            foodResultsContainer.appendChild(listItem);
+                        });
+
+                        // Increment the page number
+                        loadMoreButton.setAttribute('data-page', parseInt(page) + 1);
+                    }
+                })
+                .catch(error => console.error('Error loading more results:', error));
+            });
+        }
+    });
+</script>
 {% endblock %}
