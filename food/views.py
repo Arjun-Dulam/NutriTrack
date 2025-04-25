@@ -13,6 +13,9 @@ from django.http import JsonResponse
 def food_list(request):
     query = request.GET.get('query', '').strip()  # Get the query and strip whitespace
     page = int(request.GET.get('page', 1))  # Get the current page, default to 1
+    diet = request.GET.get('diet', '').strip()  # Get dietary restriction (e.g., vegetarian, vegan)
+    intolerances = request.GET.get('intolerances', '').strip()  # Get intolerances (e.g., gluten, dairy)
+    
     logged_foods = FoodLog.objects.filter(user=request.user).order_by('-log_date')  # Fetch logged foods
     water_logs = WaterLog.objects.filter(user=request.user).order_by('-log_date')  # Fetch water logs
     exercise_logs = ExerciseLog.objects.filter(user=request.user).order_by('-log_date')  # Fetch exercise logs
@@ -30,11 +33,17 @@ def food_list(request):
     url = "https://api.spoonacular.com/recipes/complexSearch"
     params = {
         'query': query,
-        'number': 5,  # Limit the number of results to 5
+        'number': 10,  # Limit the number of results to 5
         'offset': (page - 1) * 5,  # Offset based on the current page
         'apiKey': api_key,
         'addRecipeInformation': True,  # Include detailed recipe info
     }
+
+    # Add dietary restrictions if provided
+    if diet:
+        params['diet'] = diet
+    if intolerances:
+        params['intolerances'] = intolerances
 
     # Make the API request
     response = requests.get(url, params=params)
@@ -49,7 +58,6 @@ def food_list(request):
     # Parse the API response
     data = response.json()
     food_items = data.get('results', [])
-    
 
     # Handle AJAX requests
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':  # Check if the request is AJAX
@@ -64,7 +72,8 @@ def food_list(request):
         'page': page,
         'exercise_logs': exercise_logs,  # Pass exercise logs to the template
     })
-
+    
+    
 @login_required
 def add_food_log(request):
     if request.method == 'POST':
