@@ -6,6 +6,7 @@ import requests
 from .models import FoodLog # Import the FoodLog model
 from django.utils import timezone # Import timezone
 from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
 
 
 @login_required
@@ -44,6 +45,10 @@ def food_list(request):
     # Parse the API response
     data = response.json()
     food_items = data.get('results', [])
+
+    # Handle AJAX requests
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':  # Check if the request is AJAX
+        return JsonResponse({'food_items': food_items})
 
     # Render the results in the template
     return render(request, 'food/list.html', {
