@@ -22,9 +22,8 @@ def calculate_total_calories_eaten(user):
     Returns:
         int: Total calories eaten.
     """
-
     today = now().date()
-    food_logs = FoodLog.objects.filter(user=user, date=today)
+    food_logs = FoodLog.objects.filter(user=user, log_date__date=today)  # Use log_date__date
     total_calories = sum(log.calories for log in food_logs)
     return total_calories
 
@@ -38,12 +37,10 @@ def calculate_total_exercise_calories(user):
     Returns:
         int: Total calories expended during exercise.
     """
-
     today = now().date()
-    exercise_logs = ExerciseLog.objects.filter(user=user, date=today)
+    exercise_logs = ExerciseLog.objects.filter(user=user, log_date__date=today)  # Use log_date__date
     total_calories = sum(log.calories_burned for log in exercise_logs)
     return total_calories
-
 
 
 @login_required

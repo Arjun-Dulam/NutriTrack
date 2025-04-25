@@ -29,5 +29,45 @@
     </div>
     {% endif %}
 
+    <!-- Add a canvas for the graph -->
+    <h2 class="text-xl font-bold mt-8">Calorie Breakdown</h2>
+    <canvas id="calorieChart" width="400" height="200"></canvas>
+
+    <script>
+        const ctx = document.getElementById('calorieChart').getContext('2d');
+        const calorieChart = new Chart(ctx, {
+            type: 'bar', // Bar chart
+            data: {
+                labels: ['Calories Eaten', 'Exercise Calories', 'Maintenance Calories'], // Labels for the bars
+                datasets: [{
+                    label: 'Calories (kcal)',
+                    data: [
+                        {{ total_calories_eaten }},
+                        {{ exercise_calories }},
+                        {{ maintenance_calories }}
+                    ],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.2)', // Light green
+                        'rgba(255, 99, 132, 0.2)', // Light red
+                        'rgba(54, 162, 235, 0.2)'  // Light blue
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)', // Green
+                        'rgba(255, 99, 132, 1)', // Red
+                        'rgba(54, 162, 235, 1)'  // Blue
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true // Start the y-axis at 0
+                    }
+                }
+            }
+        });
+    </script>
+
 </main>
 {% endblock %}
