@@ -5,6 +5,8 @@ from profiles.models import UserProfile
 import requests
 from .models import FoodLog # Import the FoodLog model
 from django.utils import timezone # Import timezone
+from django.shortcuts import get_object_or_404
+
 
 @login_required
 def food_list(request):
@@ -216,3 +218,9 @@ def food_list(request):
         'query': query,
         'logged_foods': logged_foods
     })
+    
+@login_required
+def remove_food_log(request, log_id):
+    food_log = get_object_or_404(FoodLog, id=log_id, user=request.user)
+    food_log.delete()
+    return redirect('food.list')  # Redirect back to the food list page
