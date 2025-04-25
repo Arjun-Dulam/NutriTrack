@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from profiles.models import UserProfile
 import requests
-from .models import FoodLog # Import the FoodLog model
+from .models import FoodLog, WaterLog # Import the FoodLog model
 from django.utils import timezone # Import timezone
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
@@ -135,3 +135,15 @@ def remove_food_log(request, log_id):
     food_log = get_object_or_404(FoodLog, id=log_id, user=request.user)
     food_log.delete()
     return redirect('food.list')  # Redirect back to the food list page
+
+@login_required
+def add_water_log(request):
+    if request.method == 'POST':
+        water_amount = request.POST.get('water_amount')
+        if water_amount:
+            WaterLog.objects.create(
+                user=request.user,
+                water_amount_ml=float(water_amount),
+                log_date=timezone.now()
+            )
+    return redirect('food.list')  # Redirect back to the same page

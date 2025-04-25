@@ -75,6 +75,37 @@
     {% else %}
         <p class="text-gray-600">You haven't logged any foods yet.</p>
     {% endif %}
+
+    <!-- Water Intake Form -->
+    <h2 class="text-2xl font-bold text-gray-800 mt-12 mb-4">Log Your Water Intake</h2>
+    <form method="post" action="{% url 'add_water_log' %}" class="flex items-center space-x-4 mb-8">
+        {% csrf_token %}
+        <input type="number" name="water_amount" placeholder="Enter water in ml"
+            class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <button type="submit"
+            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-200">
+            Log Water
+        </button>
+    </form>
+
+    <!-- Display Logged Water -->
+    <h2 class="text-2xl font-bold text-gray-800 mt-12 mb-4">Your Logged Water Intake</h2>
+    {% if water_logs %}
+        <ul class="space-y-4">
+            {% for log in water_logs %}
+                <li class="flex items-center justify-between bg-white border border-gray-300 rounded p-4 shadow">
+                    <div>
+                        <strong class="text-lg text-blue-700">{{ log.water_amount_ml }} ml</strong>
+                        <p class="text-sm text-gray-600">
+                            Logged on {{ log.log_date|date:"M d, Y H:i" }}
+                        </p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-gray-600">You haven't logged any water intake yet.</p>
+    {% endif %}
 </div>
 
 <script>

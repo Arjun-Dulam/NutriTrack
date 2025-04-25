@@ -24,3 +24,11 @@ class FoodLog(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.food_name} on {self.log_date.strftime('%Y-%m-%d')}"
+
+class WaterLog(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    water_amount_ml = models.FloatField()  # Amount of water in milliliters
+    log_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.water_amount_ml} ml on {self.log_date.strftime('%Y-%m-%d')}"
