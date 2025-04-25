@@ -7,6 +7,14 @@ from .models import FoodLog, WaterLog, ExerciseLog
 from django.utils import timezone # Import timezone
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
+from groq import Groq
+from django.db.models import Sum
+
+
+client = Groq(
+    api_key=settings.GROQ_API_KEY,
+)
+
 
 
 @login_required
@@ -16,13 +24,28 @@ def food_list(request):
     logged_foods = FoodLog.objects.filter(user=request.user).order_by('-log_date')  # Fetch logged foods
     water_logs = WaterLog.objects.filter(user=request.user).order_by('-log_date')  # Fetch water logs
     exercise_logs = ExerciseLog.objects.filter(user=request.user).order_by('-log_date')  # Fetch exercise logs
+    food_names = logged_foods.values_list('food_name', flat=True)
+    food_string = ', '.join(food_names)
+    exercise_names = exercise_logs.values_list('exercise_name', flat=True)
+    exercise_string = ', '.join(exercise_names)
+    water_amounts = WaterLog.objects.filter(user=request.user).values_list('water_amount_ml', flat=True)
+    water_string = ', '.join([f"{amount} ml" for amount in water_amounts])
+    total_water = WaterLog.objects.filter(user=request.user).aggregate(total=Sum('water_amount_ml'))['total'] or 0
+
+
+    llm_response = None
+    if request.method == 'POST' and 'llm_question' in request.POST:
+        user_question = request.POST.get('llm_question')
+        system_prompt = create_system_prompt(food_string, exercise_string, total_water)
+        llm_response = llm_call(user_question, system_prompt)
 
     if not query:  # If no query is provided
         return render(request, 'food/list.html', {
             'message': 'Search for your favorite foods!',
             'logged_foods': logged_foods,
             'water_logs': water_logs,  # Include water logs
-            'exercise_logs': exercise_logs  # Include exercise logs
+            'exercise_logs': exercise_logs,  # Include exercise logs
+            'llm_response': llm_response,
         })
 
     # Prepare API request
@@ -49,7 +72,7 @@ def food_list(request):
     # Parse the API response
     data = response.json()
     food_items = data.get('results', [])
-    
+
 
     # Handle AJAX requests
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':  # Check if the request is AJAX
@@ -62,6 +85,7 @@ def food_list(request):
         'logged_foods': logged_foods,
         'water_logs': water_logs,  # Pass water logs to the template
         'page': page,
+        'llm_response': llm_response,
         'exercise_logs': exercise_logs,  # Pass exercise logs to the template
     })
 
@@ -181,3 +205,26 @@ def remove_exercise_log(request, log_id):
     exercise_log = get_object_or_404(ExerciseLog, id=log_id, user=request.user)
     exercise_log.delete()
     return redirect('food.list')  # Redirect back to the food list page
+
+
+def create_system_prompt(food_string, exercise_string, water_string):
+    return f"""
+    You are a helpful and friendly nutrition assistant. Always provide concise, factual answers. Give them adviced based on their logged foods, exercises, and water intake.
+    User's logged foods: {food_string}
+    User's logged exercises: {exercise_string}
+    User's logged water intake: {water_string}.
+    Responses should only in text format of paragraph
+    """
+
+
+def llm_call(user_input, system_prompt):
+
+    response = client.chat.completions.create(
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_input}
+        ],
+        model="llama-3.3-70b-versatile",
+        stream=False,
+    )
+    return response.choices[0].message.content
