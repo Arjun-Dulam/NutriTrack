@@ -25,26 +25,43 @@ def login(request):
             return render(request, 'accounts/login.html', {'template_data': template_data})
         else:
             auth_login(request, user)
-            messages.success(request, f'Welcome back, {user.username}! You have successfully logged in.') 
+            messages.success(request, f'Welcome back, {user.username}! You have successfully logged in.')
             return redirect('home.index')
 
 
+# def signup(request):
+#     template_data = {}
+#     template_data['title'] = 'Sign Up'
+#     if request.method == 'GET':
+#         template_data['form'] = UserCreationForm()
+#         return render(request, 'accounts/signup.html',
+#             {'template_data': template_data})
+#     elif request.method == 'POST':
+#         form = UserCreationForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('profiles.edit_profile')
+#         else:
+#             template_data['form'] = form
+#             return render(request, 'accounts/signup.html',
+#                 {'template_data': template_data})
+
+
+# Signup view with redirect to edit_profile
 def signup(request):
-    template_data = {}
-    template_data['title'] = 'Sign Up'
-    if request.method == 'GET':
-        template_data['form'] = UserCreationForm()
-        return render(request, 'accounts/signup.html',
-            {'template_data': template_data})
-    elif request.method == 'POST':
+    if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('profiles.edit_profile')
-        else:
-            template_data['form'] = form
-            return render(request, 'accounts/signup.html',
-                {'template_data': template_data})
+            user = form.save()
+            auth_login(request, user)  # Automatically log the user in after signup
+            return redirect('profiles.edit_profile')  # Redirect to edit profile page
+    else:
+        form = UserCreationForm()
+
+    template_data = {'form': form}  # Add this line
+
+    return render(request, 'accounts/signup.html', {'template_data': template_data})  # Update this line
+
 
 
 def changePassword(request):
