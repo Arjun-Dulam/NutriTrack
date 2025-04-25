@@ -14,6 +14,7 @@ def food_list(request):
     query = request.GET.get('query', '').strip()  # Get the query and strip whitespace
     page = int(request.GET.get('page', 1))  # Get the current page, default to 1
     logged_foods = FoodLog.objects.filter(user=request.user).order_by('-log_date')  # Fetch logged foods
+    water_logs = WaterLog.objects.filter(user=request.user).order_by('-log_date')  # Fetch water logs
 
     if not query:  # If no query is provided
         return render(request, 'food/list.html', {
@@ -45,6 +46,7 @@ def food_list(request):
     # Parse the API response
     data = response.json()
     food_items = data.get('results', [])
+    
 
     # Handle AJAX requests
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':  # Check if the request is AJAX
@@ -55,7 +57,8 @@ def food_list(request):
         'food_items': food_items,
         'query': query,
         'logged_foods': logged_foods,
-        'page': page,  # Pass the current page to the template
+        'water_logs': water_logs,  # Pass water logs to the template
+        'page': page,
     })
 
 @login_required
