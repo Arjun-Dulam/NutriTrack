@@ -105,7 +105,7 @@
                 scales: {
                     y: {
                         beginAtZero: true,
-                        suggestedMax: Math.max({{ water_intake_logged }}, {{ water_intake }})
+                        suggestedMax: Math.max({{ water_intake_logged }}, {{ water_intake }}) * 1.2 // Add 20% padding to the max value
                     }
                 }
             }
