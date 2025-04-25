@@ -8,7 +8,6 @@ class UserProfile(models.Model):
     SEX_CHOICES = [
         ('M', 'Male'),
         ('F', 'Female'),
-        ('O', 'Other'),
     ]
     sex = models.CharField(max_length=1, choices=SEX_CHOICES, null=True, blank=True)
 
