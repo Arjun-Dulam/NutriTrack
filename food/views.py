@@ -19,7 +19,8 @@ def food_list(request):
     if not query:  # If no query is provided
         return render(request, 'food/list.html', {
             'message': 'Search for your favorite foods!',
-            'logged_foods': logged_foods
+            'logged_foods': logged_foods,
+            'water_logs': water_logs  # Include water logs
         })
 
     # Prepare API request
@@ -150,3 +151,9 @@ def add_water_log(request):
                 log_date=timezone.now()
             )
     return redirect('food.list')  # Redirect back to the same page
+
+@login_required
+def remove_water_log(request, log_id):
+    water_log = get_object_or_404(WaterLog, id=log_id, user=request.user)
+    water_log.delete()
+    return redirect('food.list')  # Redirect back to the food list page
