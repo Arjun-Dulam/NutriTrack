@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from profiles.models import UserProfile
 import requests
-from .models import FoodLog, WaterLog # Import the FoodLog model
+from .models import FoodLog, WaterLog, ExerciseLog
 from django.utils import timezone # Import timezone
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
@@ -156,4 +156,28 @@ def add_water_log(request):
 def remove_water_log(request, log_id):
     water_log = get_object_or_404(WaterLog, id=log_id, user=request.user)
     water_log.delete()
+    return redirect('food.list')  # Redirect back to the food list page
+
+@login_required
+def add_exercise_log(request):
+    if request.method == 'POST':
+        exercise_name = request.POST.get('exercise_name')
+        calories_burned = request.POST.get('calories_burned')
+        duration_minutes = request.POST.get('duration_minutes')
+
+        if exercise_name and calories_burned and duration_minutes:
+            ExerciseLog.objects.create(
+                user=request.user,
+                exercise_name=exercise_name,
+                calories_burned=float(calories_burned),
+                duration_minutes=float(duration_minutes),
+                log_date=timezone.now()
+            )
+    return redirect('food.list')  # Redirect back to the same page
+
+
+@login_required
+def remove_exercise_log(request, log_id):
+    exercise_log = get_object_or_404(ExerciseLog, id=log_id, user=request.user)
+    exercise_log.delete()
     return redirect('food.list')  # Redirect back to the food list page

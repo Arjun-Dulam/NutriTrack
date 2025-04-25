@@ -32,3 +32,13 @@ class WaterLog(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.water_amount_ml} ml on {self.log_date.strftime('%Y-%m-%d')}"
+    
+class ExerciseLog(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    exercise_name = models.CharField(max_length=200)
+    calories_burned = models.FloatField()  # Calories burned during the exercise
+    duration_minutes = models.FloatField()  # Duration of the exercise in minutes
+    log_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.exercise_name} on {self.log_date.strftime('%Y-%m-%d')}"
