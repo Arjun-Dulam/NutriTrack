@@ -6,6 +6,7 @@ from profiles.models import UserProfile
 from django.utils.timezone import now
 from food.models import FoodLog  # Import your FoodLog model
 from food.models import ExerciseLog
+from food.models import WaterLog
 
 
 client = Groq(
@@ -62,6 +63,7 @@ def index(request):
 
     # Calculate calories (only if profile exists)
     calories_needed = None
+    water_intake = None
     if user_profile:
         calories_needed = calculate_maintenance_calories(weight_kg, height_cm, sex, activity_level)
         water_intake = calculate_water_intake(weight_kg)
@@ -69,6 +71,11 @@ def index(request):
     # Calculate total calories eaten and expended during exercise
     total_calories_eaten = calculate_total_calories_eaten(request.user)
     total_exercise_calories = calculate_total_exercise_calories(request.user)
+
+    # Calculate water intake logged by the user
+    today = now().date()
+    water_logs = WaterLog.objects.filter(user=request.user, log_date__date=today)  # Fetch today's water logs
+    water_intake_logged = sum(log.water_amount_ml for log in water_logs) / 1000  # Convert ml to liters
 
     llm_response = None
     user_question = None
@@ -88,6 +95,7 @@ def index(request):
         'calories': calories_needed,
         'user_question': user_question,
         'water_intake': water_intake,
+        'water_intake_logged': water_intake_logged,
         'total_calories_eaten': total_calories_eaten,
         'exercise_calories': total_exercise_calories,
         'maintenance_calories': calories_needed,

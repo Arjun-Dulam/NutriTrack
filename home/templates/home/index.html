@@ -29,7 +29,7 @@
     </div>
     {% endif %}
 
-    <!-- Add a canvas for the graph -->
+    <!-- Add a canvas for the calorie breakdown graph -->
     <h2 class="text-xl font-bold mt-8">Calorie Breakdown</h2>
     <canvas id="calorieChart" width="400" height="200"></canvas>
     <script>
@@ -37,28 +37,28 @@
         const calorieDeficitOrSurplus = {{ total_calories_eaten }} - ({{ exercise_calories }} + {{ maintenance_calories }});
 
         const calorieChart = new Chart(ctx, {
-            type: 'bar', // Bar chart
+            type: 'bar',
             data: {
-                labels: ['Calories Eaten', 'Exercise Calories', 'Maintenance Calories', 'Calorie Deficit/Surplus'], // Labels for the bars
+                labels: ['Calories Eaten', 'Exercise Calories', 'Maintenance Calories', 'Calorie Deficit/Surplus'],
                 datasets: [{
                     label: 'Calories (kcal)',
                     data: [
                         {{ total_calories_eaten }},
-                        -{{ exercise_calories }}, // Make exercise calories negative
-                        -{{ maintenance_calories }}, // Make maintenance calories negative
+                        -{{ exercise_calories }},
+                        -{{ maintenance_calories }},
                         calorieDeficitOrSurplus
                     ],
                     backgroundColor: [
-                        'rgba(75, 192, 192, 0.2)', // Light green
-                        'rgba(255, 99, 132, 0.2)', // Light red
-                        'rgba(54, 162, 235, 0.2)', // Light blue
-                        'rgba(255, 206, 86, 0.2)'  // Light yellow
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)'
                     ],
                     borderColor: [
-                        'rgba(75, 192, 192, 1)', // Green
-                        'rgba(255, 99, 132, 1)', // Red
-                        'rgba(54, 162, 235, 1)', // Blue
-                        'rgba(255, 206, 86, 1)'  // Yellow
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
                     ],
                     borderWidth: 1
                 }]
@@ -67,13 +67,49 @@
                 scales: {
                     y: {
                         beginAtZero: true,
-                        suggestedMin: Math.min(0, calorieDeficitOrSurplus, -{{ exercise_calories }}, -{{ maintenance_calories }}), // Extend y-axis to accommodate negative values
-                        suggestedMax: Math.max({{ total_calories_eaten }}, calorieDeficitOrSurplus) // Extend y-axis to accommodate the highest value
+                        suggestedMin: Math.min(0, calorieDeficitOrSurplus, -{{ exercise_calories }}, -{{ maintenance_calories }}),
+                        suggestedMax: Math.max({{ total_calories_eaten }}, calorieDeficitOrSurplus)
                     }
                 }
             }
         });
     </script>
 
+    <!-- Add a canvas for the water intake graph -->
+    <h2 class="text-xl font-bold mt-8">Water Intake</h2>
+    <canvas id="waterChart" width="400" height="200"></canvas>
+    <script>
+        const waterCtx = document.getElementById('waterChart').getContext('2d');
+        const waterChart = new Chart(waterCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Water Intake', 'Recommended Water'],
+                datasets: [{
+                    label: 'Water (liters)',
+                    data: [
+                        {{ water_intake_logged }},
+                        {{ water_intake }}
+                    ],
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.2)', // Light blue
+                        'rgba(75, 192, 192, 0.2)'  // Light green
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)', // Blue
+                        'rgba(75, 192, 192, 1)'  // Green
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        suggestedMax: Math.max({{ water_intake_logged }}, {{ water_intake }})
+                    }
+                }
+            }
+        });
+    </script>
 </main>
 {% endblock %}
