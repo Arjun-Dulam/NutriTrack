@@ -13,9 +13,9 @@
 - ✅ **As a user, I want to input my weight, height, and sex so that I can receive recommendations on my water and caloric intake.**
 - ✅ **As a user, I want to record my meals and snacks so that I can track my nutrition data.**
 - ✅ **As a user, I want my daily calorie intake to be calculated automatically so that I know what to eat.**
-- ❌ **As a user, I want to categorize meals into food groups so that I can maintain a balanced diet.**
+- ❌ ****As a user, I want to categorize meals into food groups so that I can maintain a balanced diet.****
 - ❌ **As a user, I want to set dietary goals (e.g., calorie limits or macronutrient ratios) so that I can improve my eating habits.**
-- ❌ **As a user, I want to see if I am meeting my recommended water and caloric intake so that I have a preset nutritional goal.**
+- ✅ **As a user, I want to see if I am meeting my recommended water and caloric intake so that I have a preset nutritional goal.**
 - ✅ **As a user, I want to view simple, easy-to-understand reports of my nutrition with graphs so that I can identify how to improve my eating habits.**
 - ✅ **As a user, I want to receive personalized dietary tips based on my food logs and goals so that I can improve my eating habits.**
 - ✅ **As a user, I want to store dietary restrictions (e.g., vegan, gluten-free) so that my meal suggestions are compatible.**
