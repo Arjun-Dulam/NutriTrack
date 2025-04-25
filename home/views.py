@@ -3,13 +3,48 @@ from groq import Groq
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from profiles.models import UserProfile
+from django.utils.timezone import now
+from food.models import FoodLog  # Import your FoodLog model
+from food.models import ExerciseLog
+
 
 client = Groq(
     api_key=settings.GROQ_API_KEY,
 )
 
+def calculate_total_calories_eaten(user):
+    """
+    Calculate the total calories eaten by the user for the current day.
 
-# Create your views here.
+    Args:
+        user (User): The user object.
+
+    Returns:
+        int: Total calories eaten.
+    """
+
+    today = now().date()
+    food_logs = FoodLog.objects.filter(user=user, date=today)
+    total_calories = sum(log.calories for log in food_logs)
+    return total_calories
+
+def calculate_total_exercise_calories(user):
+    """
+    Calculate the total calories expended during exercise by the user for the current day.
+
+    Args:
+        user (User): The user object.
+
+    Returns:
+        int: Total calories expended during exercise.
+    """
+
+    today = now().date()
+    exercise_logs = ExerciseLog.objects.filter(user=user, date=today)
+    total_calories = sum(log.calories_burned for log in exercise_logs)
+    return total_calories
+
+
 
 @login_required
 def index(request):
@@ -34,6 +69,10 @@ def index(request):
         calories_needed = calculate_maintenance_calories(weight_kg, height_cm, sex, activity_level)
         water_intake = calculate_water_intake(weight_kg)
 
+    # Calculate total calories eaten and expended during exercise
+    total_calories_eaten = calculate_total_calories_eaten(request.user)
+    total_exercise_calories = calculate_total_exercise_calories(request.user)
+
     llm_response = None
     user_question = None
 
@@ -52,6 +91,9 @@ def index(request):
         'calories': calories_needed,
         'user_question': user_question,
         'water_intake': water_intake,
+        'total_calories_eaten': total_calories_eaten,
+        'exercise_calories': total_exercise_calories,
+        'maintenance_calories': calories_needed,
     })
 
 
