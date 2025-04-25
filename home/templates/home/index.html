@@ -32,7 +32,6 @@
     <!-- Add a canvas for the graph -->
     <h2 class="text-xl font-bold mt-8">Calorie Breakdown</h2>
     <canvas id="calorieChart" width="400" height="200"></canvas>
-
     <script>
         const ctx = document.getElementById('calorieChart').getContext('2d');
         const calorieDeficitOrSurplus = {{ total_calories_eaten }} - ({{ exercise_calories }} + {{ maintenance_calories }});
@@ -45,8 +44,8 @@
                     label: 'Calories (kcal)',
                     data: [
                         {{ total_calories_eaten }},
-                        {{ exercise_calories }},
-                        {{ maintenance_calories }},
+                        -{{ exercise_calories }}, // Make exercise calories negative
+                        -{{ maintenance_calories }}, // Make maintenance calories negative
                         calorieDeficitOrSurplus
                     ],
                     backgroundColor: [
@@ -68,8 +67,8 @@
                 scales: {
                     y: {
                         beginAtZero: true,
-                        suggestedMin: Math.min(0, calorieDeficitOrSurplus), // Extend y-axis to accommodate negative values
-                        suggestedMax: Math.max({{ total_calories_eaten }}, {{ exercise_calories }}, {{ maintenance_calories }}, calorieDeficitOrSurplus) // Extend y-axis to accommodate the highest value
+                        suggestedMin: Math.min(0, calorieDeficitOrSurplus, -{{ exercise_calories }}, -{{ maintenance_calories }}), // Extend y-axis to accommodate negative values
+                        suggestedMax: Math.max({{ total_calories_eaten }}, calorieDeficitOrSurplus) // Extend y-axis to accommodate the highest value
                     }
                 }
             }
