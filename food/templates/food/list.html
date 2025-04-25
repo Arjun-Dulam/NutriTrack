@@ -46,6 +46,35 @@
     {% elif query %}
         <p class="text-gray-600">No results found for "{{ query }}". Try searching for something else!</p>
     {% endif %}
+
+    <h2 class="text-2xl font-bold text-gray-800 mt-12 mb-4">Your Logged Foods</h2>
+    {% if logged_foods %}
+        <ul class="space-y-4">
+            {% for log in logged_foods %}
+                <li class="flex items-center justify-between bg-white border border-gray-300 rounded p-4 shadow">
+                    <div>
+                        <strong class="text-lg text-green-700">{{ log.food_name }}</strong>
+                        <p class="text-sm text-gray-600">
+                            Logged on {{ log.log_date|date:"M d, Y H:i" }}
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">
+                            Calories: <strong>{{ log.calories|default:"N/A" }}</strong>
+                        </p>
+                    </div>
+                    <form method="post" action="{% url 'remove_food_log' log.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition duration-200">
+                            Remove
+                        </button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-gray-600">You haven't logged any foods yet.</p>
+    {% endif %}
 </div>
 
 <script>
