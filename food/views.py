@@ -15,12 +15,14 @@ def food_list(request):
     page = int(request.GET.get('page', 1))  # Get the current page, default to 1
     logged_foods = FoodLog.objects.filter(user=request.user).order_by('-log_date')  # Fetch logged foods
     water_logs = WaterLog.objects.filter(user=request.user).order_by('-log_date')  # Fetch water logs
+    exercise_logs = ExerciseLog.objects.filter(user=request.user).order_by('-log_date')  # Fetch exercise logs
 
     if not query:  # If no query is provided
         return render(request, 'food/list.html', {
             'message': 'Search for your favorite foods!',
             'logged_foods': logged_foods,
-            'water_logs': water_logs  # Include water logs
+            'water_logs': water_logs,  # Include water logs
+            'exercise_logs': exercise_logs  # Include exercise logs
         })
 
     # Prepare API request
@@ -60,6 +62,7 @@ def food_list(request):
         'logged_foods': logged_foods,
         'water_logs': water_logs,  # Pass water logs to the template
         'page': page,
+        'exercise_logs': exercise_logs,  # Pass exercise logs to the template
     })
 
 @login_required
@@ -163,18 +166,15 @@ def add_exercise_log(request):
     if request.method == 'POST':
         exercise_name = request.POST.get('exercise_name')
         calories_burned = request.POST.get('calories_burned')
-        duration_minutes = request.POST.get('duration_minutes')
 
-        if exercise_name and calories_burned and duration_minutes:
+        if exercise_name and calories_burned:
             ExerciseLog.objects.create(
                 user=request.user,
                 exercise_name=exercise_name,
                 calories_burned=float(calories_burned),
-                duration_minutes=float(duration_minutes),
                 log_date=timezone.now()
             )
     return redirect('food.list')  # Redirect back to the same page
-
 
 @login_required
 def remove_exercise_log(request, log_id):

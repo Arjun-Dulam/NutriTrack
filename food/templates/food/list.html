@@ -120,8 +120,6 @@
         class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
     <input type="number" name="calories_burned" placeholder="Calories Burned"
         class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-    <input type="number" name="duration_minutes" placeholder="Duration (minutes)"
-        class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
     <button type="submit"
         class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-200">
         Log Exercise
@@ -136,7 +134,7 @@
                 <div>
                     <strong class="text-lg text-blue-700">{{ log.exercise_name }}</strong>
                     <p class="text-sm text-gray-600">
-                        Duration: {{ log.duration_minutes }} minutes | Calories Burned: {{ log.calories_burned }}
+                        Calories Burned: {{ log.calories_burned }}
                     </p>
                     <p class="text-sm text-gray-600">
                         Logged on {{ log.log_date|date:"M d, Y H:i" }}
