@@ -35,26 +35,31 @@
 
     <script>
         const ctx = document.getElementById('calorieChart').getContext('2d');
+        const calorieDeficitOrSurplus = {{ total_calories_eaten }} - ({{ exercise_calories }} + {{ maintenance_calories }});
+
         const calorieChart = new Chart(ctx, {
             type: 'bar', // Bar chart
             data: {
-                labels: ['Calories Eaten', 'Exercise Calories', 'Maintenance Calories'], // Labels for the bars
+                labels: ['Calories Eaten', 'Exercise Calories', 'Maintenance Calories', 'Calorie Deficit/Surplus'], // Labels for the bars
                 datasets: [{
                     label: 'Calories (kcal)',
                     data: [
                         {{ total_calories_eaten }},
                         {{ exercise_calories }},
-                        {{ maintenance_calories }}
+                        {{ maintenance_calories }},
+                        calorieDeficitOrSurplus
                     ],
                     backgroundColor: [
                         'rgba(75, 192, 192, 0.2)', // Light green
                         'rgba(255, 99, 132, 0.2)', // Light red
-                        'rgba(54, 162, 235, 0.2)'  // Light blue
+                        'rgba(54, 162, 235, 0.2)', // Light blue
+                        'rgba(255, 206, 86, 0.2)'  // Light yellow
                     ],
                     borderColor: [
                         'rgba(75, 192, 192, 1)', // Green
                         'rgba(255, 99, 132, 1)', // Red
-                        'rgba(54, 162, 235, 1)'  // Blue
+                        'rgba(54, 162, 235, 1)', // Blue
+                        'rgba(255, 206, 86, 1)'  // Yellow
                     ],
                     borderWidth: 1
                 }]
@@ -62,7 +67,9 @@
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true // Start the y-axis at 0
+                        beginAtZero: true,
+                        suggestedMin: Math.min(0, calorieDeficitOrSurplus), // Extend y-axis to accommodate negative values
+                        suggestedMax: Math.max({{ total_calories_eaten }}, {{ exercise_calories }}, {{ maintenance_calories }}, calorieDeficitOrSurplus) // Extend y-axis to accommodate the highest value
                     }
                 }
             }
