@@ -11,7 +11,7 @@
 - [x] As a user, I want to see a confirmation message when I log out so that I know I’ve successfully signed out and been redirected to the homepage.
 - [x] As a user, I want to be able to change my name displayed on the app so that I can be referred to the way I prefer.
 - [x] As a user, I want to input my weight, height, and sex so that I can receive recommendations on my water and caloric intake.
-- [] As a user, I want to record my meals and snacks so that I can track my nutrition data.
+- [x] As a user, I want to record my meals and snacks so that I can track my nutrition data.
 - [x] As a user, I want my daily calorie intake to be calculated automatically so that I know what to eat.
 - [ ] As a user, I want to categorize meals into food groups so that I can maintain a balanced diet.
 - [ ] As a user, I want to set dietary goals (e.g., calorie limits or macronutrient ratios) so that I can improve my eating habits.
