@@ -5,37 +5,46 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Load Tailwind CSS from CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-green-50 flex items-center justify-center min-h-screen">
 
+  <!-- Signup Form Card -->
   <div class="w-full max-w-md p-8 rounded-2xl shadow-lg border border-green-300 bg-slate-100">
     <h2 class="text-3xl font-bold text-center text-green-700 mb-6">Sign Up</h2>
 
+    <!-- Signup Form -->
     <form method="POST" class="space-y-5">
       {% csrf_token %}
-<!-- Django Form Fields -->
-{% for field in template_data.form %}
-<div>
-  <label class="block text-gray-700 mb-1">{{ field.label}}: </label>
-  {{ field }}
-  {% if field.errors %}
-  <p class="text-red-500 text-sm mt-1">{{ field.errors.0 }}</p>
-  {% endif %}
-</div>
-{% endfor %}
 
-<button type="submit"
-          class="w-full py-2 px-4 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-200">
-          Sign Up
-        </button>
-<p class="text-center text-sm text-gray-600">
-  Already have an account?
-  <a href="{% url 'accounts.login' %}" class="text-green-600 hover:underline">Login here</a>
-</p>
-</form>
-</div>
+      <!-- Render Django form fields dynamically -->
+      {% for field in template_data.form %}
+      <div>
+        <label class="block text-gray-700 mb-1">{{ field.label }}:</label>
+        {{ field }}
+        <!-- Display validation error for each field -->
+        {% if field.errors %}
+        <p class="text-red-500 text-sm mt-1">{{ field.errors.0 }}</p>
+        {% endif %}
+      </div>
+      {% endfor %}
+
+      <!-- Submit Button -->
+      <button type="submit"
+        class="w-full py-2 px-4 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-200">
+        Sign Up
+      </button>
+
+      <!-- Login Link -->
+      <p class="text-center text-sm text-gray-600">
+        Already have an account?
+        <a href="{% url 'accounts.login' %}" class="text-green-600 hover:underline">Login here</a>
+      </p>
+    </form>
+  </div>
+
 </body>
-
 </html>

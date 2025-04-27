@@ -2,20 +2,32 @@
 {% load static %}
 
 {% block content %}
+
+<!-- Full-screen flex container for centered confirmation message -->
 <div class="flex items-center justify-center min-h-screen bg-green-50">
+
+    <!-- Confirmation Card -->
     <div class="bg-white rounded-2xl shadow-lg p-8 max-w-md w-full text-center border border-green-300">
         <h1 class="text-3xl font-bold text-green-700 mb-4">You have been logged out!</h1>
-        <p class="text-gray-700 mb-6">You will be redirected to the homepage in <span id="timer"
-                class="font-semibold text-green-600">5</span> seconds.</p>
+        <p class="text-gray-700 mb-6">
+          You will be redirected to the homepage in
+          <span id="timer" class="font-semibold text-green-600">5</span> seconds.
+        </p>
+
+        <!-- Button to manually go back to home -->
         <a href="{% url 'home.index' %}"
-            class="inline-block px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-200">
+           class="inline-block px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-200">
             Go to Home
         </a>
     </div>
 </div>
 
+<!-- JavaScript to handle redirection countdown -->
 <script>
     const redirectUrl = "{% url 'home.index' %}";
 </script>
+
+<!-- Load external JavaScript file for logout behavior -->
 <script src="{% static 'accounts/js/logoutConfirmation.js' %}"></script>
+
 {% endblock %}
