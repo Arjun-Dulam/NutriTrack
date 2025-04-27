@@ -5,6 +5,7 @@
 
 <div class="flex items-center justify-center min-h-screen bg-gray-100 px-4">
     <div class="w-full max-w-lg bg-white rounded-2xl shadow-lg p-8 border border-gray-300">
+        <!-- Display the Profile Information -->
         <h1 class="text-3xl font-bold text-center text-green-700 mb-6">{{ profile.user.username }}'s Profile</h1>
 
         <div class="space-y-4 text-gray-700">
@@ -16,6 +17,7 @@
             <p><strong>Activity Level:</strong> {{ profile.get_activity_level_display }}</p>
         </div>
 
+        <!-- Edit Profile Button -->
         <div class="mt-6 text-center">
             <a href="{% url 'profiles.edit_profile' %}"
                 class="inline-block py-2 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-200">
@@ -24,6 +26,5 @@
         </div>
     </div>
 </div>
-
 
 {% endblock %}
