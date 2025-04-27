@@ -9,7 +9,7 @@
 <main class="container mx-auto px-4 py-8">
     <h1 class="text-2xl font-bold mb-4">Welcome to NutriTrack</h1>
 
-    <!-- LLM Question Form -->
+    <!-- Question Submission Form -->
     <form method="post" class="mb-8">
         {% csrf_token %}
         <label for="question" class="block text-gray-700 mb-2">Ask a question:</label>
@@ -29,13 +29,13 @@
     </div>
     {% endif %}
 
-    <!-- Add a canvas for the calorie breakdown graph -->
+    <!-- Calorie Breakdown Chart -->
     <h2 class="text-xl font-bold mt-8">Calorie Breakdown</h2>
     <canvas id="calorieChart" width="400" height="200"></canvas>
     <script>
+        // Calorie Breakdown Chart
         const ctx = document.getElementById('calorieChart').getContext('2d');
         const calorieDeficitOrSurplus = {{ total_calories_eaten }} - ({{ exercise_calories }} + {{ maintenance_calories }});
-
         const calorieChart = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -48,18 +48,8 @@
                         -{{ maintenance_calories }},
                         calorieDeficitOrSurplus
                     ],
-                    backgroundColor: [
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)'
-                    ],
+                    backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)'],
+                    borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)'],
                     borderWidth: 1
                 }]
             },
@@ -75,10 +65,11 @@
         });
     </script>
 
-    <!-- Add a canvas for the water intake graph -->
+    <!-- Water Intake Chart -->
     <h2 class="text-xl font-bold mt-8">Water Intake</h2>
     <canvas id="waterChart" width="400" height="200"></canvas>
     <script>
+        // Water Intake Chart
         const waterCtx = document.getElementById('waterChart').getContext('2d');
         const waterChart = new Chart(waterCtx, {
             type: 'bar',
@@ -86,18 +77,9 @@
                 labels: ['Water Intake', 'Recommended Water'],
                 datasets: [{
                     label: 'Water (liters)',
-                    data: [
-                        {{ water_intake_logged }},
-                        {{ water_intake }}
-                    ],
-                    backgroundColor: [
-                        'rgba(54, 162, 235, 0.2)', // Light blue
-                        'rgba(75, 192, 192, 0.2)'  // Light green
-                    ],
-                    borderColor: [
-                        'rgba(54, 162, 235, 1)', // Blue
-                        'rgba(75, 192, 192, 1)'  // Green
-                    ],
+                    data: [{{ water_intake_logged }}, {{ water_intake }}],
+                    backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(75, 192, 192, 0.2)'],
+                    borderColor: ['rgba(54, 162, 235, 1)', 'rgba(75, 192, 192, 1)'],
                     borderWidth: 1
                 }]
             },
@@ -105,11 +87,12 @@
                 scales: {
                     y: {
                         beginAtZero: true,
-                        suggestedMax: Math.max({{ water_intake_logged }}, {{ water_intake }}) * 1.2 // Add 20% padding to the max value
+                        suggestedMax: Math.max({{ water_intake_logged }}, {{ water_intake }}) * 1.2
                     }
                 }
             }
         });
     </script>
+
 </main>
 {% endblock %}

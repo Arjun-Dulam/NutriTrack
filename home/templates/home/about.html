@@ -8,14 +8,16 @@
 {% block body %}
 <main class="container mx-auto px-4 py-12">
 
-  <!-- Top Section: Text + Banana Image + Features -->
+  <!-- About Section: Text + Features + Image -->
   <div class="flex flex-col lg:flex-row items-center gap-12 mb-20">
+
+    <!-- Company Information -->
     <section class="lg:w-1/2 text-center lg:text-left">
       <h1 class="text-4xl font-bold tracking-tight sm:text-5xl mb-6">About NutriTrack</h1>
       <p class="max-w-2xl text-lg text-gray-600 mx-auto lg:mx-0 mb-8">
-        NutriTrack is on a mission to help people live healthier lives through accessible nutrition tools. Founded by health
-        experts and engineers, we believe wellness should be within everyone’s reach.
+        NutriTrack is on a mission to help people live healthier lives through accessible nutrition tools.
       </p>
+
       <!-- Features List -->
       <section id="features" class="text-left">
         <h2 class="text-2xl font-bold mb-4">Features</h2>
@@ -27,42 +29,39 @@
           <li>View detailed nutrition reports and insights</li>
         </ul>
       </section>
-      </section>
-      
-      <!-- Banana Image -->
-      <div class="lg:w-1/2">
-        <div class="w-full h-[300px] sm:h-[400px] rounded-lg overflow-hidden shadow-md">
-          <img src="{% static 'home/images/banana.jpg' %}" alt="Our mission" class="w-full h-full object-contain">
-        </div>
-    </div>
+    </section>
+
+    <!-- Company Image -->
+    <div class="lg:w-1/2">
+      <div class="w-full h-[300px] sm:h-[400px] rounded-lg overflow-hidden shadow-md">
+        <img src="{% static 'home/images/banana.jpg' %}" alt="Our mission" class="w-full h-full object-contain">
+      </div>
     </div>
 
-  <!-- Information Section: Mission & Values -->
+  </div>
+
+  <!-- Mission and Values -->
   <section class="mb-20">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+
+      <!-- Mission -->
       <div>
         <h2 class="text-3xl font-bold mb-6">Our Mission</h2>
         <p class="text-gray-600 mb-4">
-          At NutriTrack, our mission is to empower individuals to take control of their health through smart, science-backed
-          nutrition tools that fit seamlessly into their everyday lives...
-          </p>
-        <!-- (keep the rest of your mission text as is) -->
+          Empower individuals to take control of their health through smart, science-backed nutrition tools...
+        </p>
       </div>
+
+      <!-- Values -->
       <div>
         <h2 class="text-3xl font-bold mb-6">Our Values</h2>
         <ul class="space-y-4 text-gray-700">
-          <li>
-            <strong>Empathy:</strong> We prioritize user well-being by designing our tools with a deep understanding of individual
-            needs...
-          </li>
-          <li>
-            <strong>Transparency:</strong> We believe in honest data and clear goals...
-          </li>
-          <li>
-            <strong>Innovation:</strong> We strive to stay at the forefront of health tech...
-          </li>
+          <li><strong>Empathy:</strong> Prioritizing user well-being by understanding individual needs...</li>
+          <li><strong>Transparency:</strong> Honest data and clear goals...</li>
+          <li><strong>Innovation:</strong> Staying at the forefront of health tech...</li>
         </ul>
       </div>
+
     </div>
   </section>
 

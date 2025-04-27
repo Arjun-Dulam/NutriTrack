@@ -5,30 +5,32 @@
 <html lang="en">
 
 <head>
+    <!-- Meta info and page title -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind CSS -->
 </head>
 
 <body class="font-sans bg-gray-100 flex flex-col min-h-screen">
 
-    <!-- Header -->
+    <!-- Header section -->
     <header class="bg-green-600 text-white text-center py-6">
         <h1 class="text-4xl font-bold">NutriTrack</h1>
         <p class="text-xl mt-2">Your Personal Nutrition Tracker</p>
     </header>
 
-    <!-- Navbar -->
+    <!-- Navigation bar -->
     <nav class="bg-gray-800 text-white py-4">
         <ul class="flex justify-center space-x-6">
+            <!-- Navigation Links -->
             <li><a href="{% url 'home.index' %}" class="hover:text-green-400">Home</a></li>
             <li><a href="{% url 'home.about' %}" class="hover:text-green-400">About</a></li>
             <li><a href="{% url 'home.contact' %}" class="hover:text-green-400">Contact</a></li>
             <li><a href="{% url 'home.services' %}" class="hover:text-green-400">Services</a></li>
             <li><a href="{% url 'food.list' %}" class="hover:text-green-400">Logs</a></li>
+            <!-- User dropdown menu -->
             <li class="relative">
-                <!-- User Menu Button -->
                 <button id="user-menu-button" class="flex items-center hover:text-green-400 focus:outline-none">
                     <img src="{% static 'home/images/user-icon.jpg' %}" alt="User Icon" class="h-6 w-6 rounded-full">
                     <svg id="triangle-icon" class="ml-1 h-3 w-3 fill-current" xmlns="http://www.w3.org/2000/svg"
@@ -36,12 +38,10 @@
                         <polygon points="0,0 20,0 10,10"></polygon>
                     </svg>
                 </button>
-                <!-- Dropdown Menu -->
-                <ul id="user-menu"
-                    class="absolute hidden bg-white text-black right-0 mt-2 py-2 w-48 border rounded shadow-lg">
+                <!-- Dropdown Links -->
+                <ul id="user-menu" class="absolute hidden bg-white text-black right-0 mt-2 py-2 w-48 border rounded shadow-lg">
                     {% if user.is_authenticated %}
-                    <li><a href="{% url 'profiles.view_profile' %}" class="block px-4 py-2 hover:bg-gray-200">View
-                            Profile</a></li>
+                    <li><a href="{% url 'profiles.view_profile' %}" class="block px-4 py-2 hover:bg-gray-200">View Profile</a></li>
                     <li><a href="{% url 'accounts.logout' %}" class="block px-4 py-2 hover:bg-gray-200">Log Out</a></li>
                     {% else %}
                     <li><a href="{% url 'accounts.login' %}" class="block px-4 py-2 hover:bg-gray-200">Log In</a></li>
@@ -57,16 +57,15 @@
     <div class="container mx-auto px-4 pt-4">
         <ul class="messages list-none p-0 m-0">
             {% for message in messages %}
-            <li{% if message.tags %}
-                class="alert bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4" {% endif %}>
+            <li{% if message.tags %} class="alert bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4"{% endif %}>
                 {{ message }}
-                </li>
-                {% endfor %}
+            </li>
+            {% endfor %}
         </ul>
     </div>
     {% endif %}
 
-    <!-- Main Content -->
+    <!-- Main content block -->
     <main class="flex-grow container mx-auto px-4 py-8">
         {% block body %}{% endblock %}
     </main>
@@ -76,20 +75,20 @@
         <p>&copy; 2025 NutriTrack. All rights reserved.</p>
     </footer>
 
+    <!-- Scripts -->
     <script src="{% static 'home/js/main.js' %}"></script>
 
     <script>
-        // Toggle dropdown visibility
+        // Toggle user menu visibility
         document.addEventListener('DOMContentLoaded', function () {
             const userMenuButton = document.getElementById('user-menu-button');
             const userMenu = document.getElementById('user-menu');
-
             userMenuButton.addEventListener('click', function () {
                 userMenu.classList.toggle('hidden');
             });
         });
 
-        // Auto-hide messages after 3 seconds
+        // Auto-hide flash messages after 3 seconds
         document.addEventListener('DOMContentLoaded', () => {
             const messages = document.querySelectorAll('.messages .alert');
             if (messages.length > 0) {
@@ -99,6 +98,7 @@
             }
         });
     </script>
+
 </body>
 
 </html>
