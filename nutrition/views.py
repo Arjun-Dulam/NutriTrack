@@ -1,3 +1,4 @@
 from django.shortcuts import render
 
-# Create your views here.
+# Define your views (request handlers) for the 'nutrition' app here
+# (No views have been implemented yet)

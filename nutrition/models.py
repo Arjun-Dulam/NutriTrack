@@ -1,3 +1,5 @@
 from django.db import models
 
-# Create your models here.
+# Define your database models for the 'nutrition' app here
+# (No models have been defined yet)
+
