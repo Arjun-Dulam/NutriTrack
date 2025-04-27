@@ -4,10 +4,12 @@
   <div class="w-full max-w-lg bg-white rounded-2xl shadow-lg p-8 border border-gray-300">
     <h1 class="text-3xl font-bold text-center text-green-700 mb-6">Edit Your Profile</h1>
 
+    <!-- Profile Edit Form -->
     <form method="POST" class="space-y-5">
       {% csrf_token %}
       {{ form.non_field_errors }}
 
+      <!-- Username Field -->
       <div>
         <label for="id_username" class="block text-gray-700 mb-1">Username:</label>
         <input type="text" name="username" id="id_username" value="{{ form.username.value|default_if_none:'' }}" required
@@ -42,39 +44,34 @@
       <!-- Sex Field -->
       <div>
         <label for="id_sex" class="block text-gray-700 mb-1">Sex:</label>
-        <div class="w-full border border-black rounded px-3 py-2 focus:outline-none focus:ring-2
-                          focus:ring-green-500">
-          {{form.sex }}
+        <div class="w-full border border-black rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+          {{ form.sex }}
         </div>
         {% if form.sex.errors %}
         <p class="text-red-500 text-sm mt-1">{{ form.sex.errors.0 }}</p>
         {% endif %}
       </div>
 
-
-
       <!-- Activity Level Field -->
       <div>
         <label for="id_activity_level" class="block text-gray-700 mb-1">Activity Level:</label>
-        <div class="w-full border border-black rounded px-3 py-2 focus:outline-none focus:ring-2
-                                        focus:ring-green-500">
+        <div class="w-full border border-black rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
           {{ form.activity_level }}
         </div>
         {% if form.activity_level.errors %}
         <p class="text-red-500 text-sm mt-1">{{ form.activity_level.errors.0 }}</p>
         {% endif %}
-        </div>
+      </div>
 
-
-        <!-- Dietary Restrictions Field -->
+      <!-- Dietary Restrictions Field -->
+      <div>
+        <label for="id_dietary_restrictions" class="block text-gray-700 mb-1">Dietary Restrictions:</label>
         <div>
-          <label for="id_dietary_restrictions" class="block text-gray-700 mb-1">Dietary Restrictions:</label>
-          <div>
-            {{ form.dietary_restrictions }}
-          </div>
-          {% if form.dietary_restrictions.errors %}
-          <p class="text-red-500 text-sm mt-1">{{ form.dietary_restrictions.errors.0 }}</p>
-          {% endif %}
+          {{ form.dietary_restrictions }}
+        </div>
+        {% if form.dietary_restrictions.errors %}
+        <p class="text-red-500 text-sm mt-1">{{ form.dietary_restrictions.errors.0 }}</p>
+        {% endif %}
       </div>
 
       <!-- Submit Button -->
@@ -82,7 +79,7 @@
         class="w-full py-2 px-4 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-200">
         Save Profile
       </button>
-      </form>
-      </div>
+    </form>
+  </div>
 </div>
 {% endblock %}

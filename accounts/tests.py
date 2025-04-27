@@ -1,3 +1,5 @@
 from django.test import TestCase
 
-# Create your tests here.
+# Create  tests here.
+# Write unit tests for the accounts app.
+# Example: class UserAccountTests(TestCase): ...
