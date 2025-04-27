@@ -1,40 +1,36 @@
-from django.shortcuts import render, redirect # Added redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from profiles.models import UserProfile
-import requests
 from .models import FoodLog, WaterLog, ExerciseLog
-from django.utils import timezone # Import timezone
-from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from django.http import JsonResponse
-from groq import Groq
 from django.db.models import Sum
+from groq import Groq
+import requests
 
+# Set up the Groq API client
+client = Groq(api_key=settings.GROQ_API_KEY)
 
-client = Groq(
-    api_key=settings.GROQ_API_KEY,
-)
-
-
-
+# View for searching foods and listing logs
 @login_required
 def food_list(request):
-    query = request.GET.get('query', '').strip()  # Get the query and strip whitespace
-    page = int(request.GET.get('page', 1))  # Get the current page, default to 1
-    diet = request.GET.get('diet', '').strip()  # Get dietary restriction (e.g., vegetarian, vegan)
-    intolerances = request.GET.get('intolerances', '').strip()  # Get intolerances (e.g., gluten, dairy)
+    query = request.GET.get('query', '').strip()
+    page = int(request.GET.get('page', 1))
+    diet = request.GET.get('diet', '').strip()
+    intolerances = request.GET.get('intolerances', '').strip()
 
-    logged_foods = FoodLog.objects.filter(user=request.user).order_by('-log_date')  # Fetch logged foods
-    water_logs = WaterLog.objects.filter(user=request.user).order_by('-log_date')  # Fetch water logs
-    exercise_logs = ExerciseLog.objects.filter(user=request.user).order_by('-log_date')  # Fetch exercise logs
-    food_names = logged_foods.values_list('food_name', flat=True)
-    food_string = ', '.join(food_names)
-    exercise_names = exercise_logs.values_list('exercise_name', flat=True)
-    exercise_string = ', '.join(exercise_names)
-    water_amounts = WaterLog.objects.filter(user=request.user).values_list('water_amount_ml', flat=True)
+    # Fetch logged data
+    logged_foods = FoodLog.objects.filter(user=request.user).order_by('-log_date')
+    water_logs = WaterLog.objects.filter(user=request.user).order_by('-log_date')
+    exercise_logs = ExerciseLog.objects.filter(user=request.user).order_by('-log_date')
+
+    # Stringify data for LLM
+    food_string = ', '.join(logged_foods.values_list('food_name', flat=True))
+    exercise_string = ', '.join(exercise_logs.values_list('exercise_name', flat=True))
+    water_amounts = water_logs.values_list('water_amount_ml', flat=True)
     water_string = ', '.join([f"{amount} ml" for amount in water_amounts])
     total_water = WaterLog.objects.filter(user=request.user).aggregate(total=Sum('water_amount_ml'))['total'] or 0
-
 
     llm_response = None
     if request.method == 'POST' and 'llm_question' in request.POST:
@@ -42,114 +38,84 @@ def food_list(request):
         system_prompt = create_system_prompt(food_string, exercise_string, total_water)
         llm_response = llm_call(user_question, system_prompt)
 
-    if not query:  # If no query is provided
+    if not query:
         return render(request, 'food/list.html', {
             'message': 'Search for your favorite foods!',
             'logged_foods': logged_foods,
-            'water_logs': water_logs,  # Include water logs
-            'exercise_logs': exercise_logs,  # Include exercise logs
+            'water_logs': water_logs,
+            'exercise_logs': exercise_logs,
             'llm_response': llm_response,
         })
 
-    # Prepare API request
+    # Prepare external API request to Spoonacular
     api_key = settings.SPOONACULAR_API_KEY
     url = "https://api.spoonacular.com/recipes/complexSearch"
     params = {
         'query': query,
-        'number': 10,  # Limit the number of results to 5
-        'offset': (page - 1) * 5,  # Offset based on the current page
+        'number': 10,
+        'offset': (page - 1) * 5,
         'apiKey': api_key,
-        'addRecipeInformation': True,  # Include detailed recipe info
+        'addRecipeInformation': True,
     }
-
-    # Add dietary restrictions if provided
     if diet:
         params['diet'] = diet
     if intolerances:
         params['intolerances'] = intolerances
 
-    # Make the API request
     response = requests.get(url, params=params)
     if response.status_code != 200:
-        error_message = response.json().get('message', 'An error occurred while fetching data.')
+        error_message = response.json().get('message', 'An error occurred.')
         return render(request, 'food/list.html', {
             'error': error_message,
             'query': query,
             'logged_foods': logged_foods
         })
 
-    # Parse the API response
     data = response.json()
     food_items = data.get('results', [])
 
-
-    # Handle AJAX requests
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':  # Check if the request is AJAX
+    # Return AJAX responses for "Load More"
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         return JsonResponse({'food_items': food_items})
 
-    # Render the results in the template
     return render(request, 'food/list.html', {
         'food_items': food_items,
         'query': query,
         'logged_foods': logged_foods,
-        'water_logs': water_logs,  # Pass water logs to the template
+        'water_logs': water_logs,
         'page': page,
         'llm_response': llm_response,
-        'exercise_logs': exercise_logs,  # Pass exercise logs to the template
+        'exercise_logs': exercise_logs,
     })
 
-
+# Add a food log entry
 @login_required
 def add_food_log(request):
     if request.method == 'POST':
         food_name = request.POST.get('food_name')
-        # Ensure the ID from the form is treated as an integer if it exists
         spoonacular_id_str = request.POST.get('spoonacular_id')
         spoonacular_id = int(spoonacular_id_str) if spoonacular_id_str and spoonacular_id_str.isdigit() else None
 
-        # --- Fetch detailed nutrition info from Spoonacular using Recipe ID ---
-        calories = None
-        protein_g = None
-        carbs_g = None
-        fat_g = None
+        calories = protein_g = carbs_g = fat_g = None
 
-        # Use the recipe ID (spoonacular_id) to get nutrition info
+        # Fetch detailed nutrition info
         if spoonacular_id:
             try:
                 api_key = settings.SPOONACULAR_API_KEY
-                # Use the recipe nutrition endpoint
                 url = f"https://api.spoonacular.com/recipes/{spoonacular_id}/nutritionWidget.json?apiKey={api_key}"
                 response = requests.get(url)
-                response.raise_for_status() # Raise HTTPError for bad responses (4xx or 5xx)
+                response.raise_for_status()
                 data = response.json()
 
-                # Extract nutrition info - Adjust keys based on actual API response
-                calories = data.get('calories') # Often a string like "350 kcal"
-                protein_g = data.get('protein') # Often a string like "20g"
-                carbs_g = data.get('carbs')   # Often a string like "40g"
-                fat_g = data.get('fat')     # Often a string like "15g"
-
-                # Basic parsing (remove 'kcal' or 'g', convert to float)
-                # More robust parsing might be needed depending on API variations
-                try:
-                    calories = float(calories.replace('kcal', '').strip()) if calories else None
-                    protein_g = float(protein_g.replace('g', '').strip()) if protein_g else None
-                    carbs_g = float(carbs_g.replace('g', '').strip()) if carbs_g else None
-                    fat_g = float(fat_g.replace('g', '').strip()) if fat_g else None
-                except (ValueError, AttributeError):
-                     # Handle cases where parsing fails or data is not as expected
-                     print(f"Could not parse nutrition data: Cals={calories}, Prot={protein_g}, Carb={carbs_g}, Fat={fat_g}")
-                     calories, protein_g, carbs_g, fat_g = None, None, None, None # Reset on failure
-
-            except requests.exceptions.RequestException as e:
-                print(f"Error fetching nutrition data from Spoonacular: {e}")
-                # Optionally add a Django message: messages.error(request, "Could not fetch nutrition details.")
+                # Parse nutrition info
+                calories = float(data.get('calories', '0').replace('kcal', '').strip() or 0)
+                protein_g = float(data.get('protein', '0').replace('g', '').strip() or 0)
+                carbs_g = float(data.get('carbs', '0').replace('g', '').strip() or 0)
+                fat_g = float(data.get('fat', '0').replace('g', '').strip() or 0)
             except Exception as e:
-                print(f"Error processing nutrition data: {e}")
-                # Optionally add a Django message
+                print(f"Error fetching or parsing nutrition data: {e}")
 
-        # --- Create and save the FoodLog entry ---
-        if food_name: # Ensure we have at least a name
+        if food_name:
             FoodLog.objects.create(
                 user=request.user,
                 food_name=food_name,
@@ -158,25 +124,18 @@ def add_food_log(request):
                 protein_g=protein_g,
                 carbs_g=carbs_g,
                 fat_g=fat_g,
-                log_date=timezone.now() # Use timezone.now()
-                # meal_type could be added later via a dropdown in the form
+                log_date=timezone.now()
             )
-            # Redirect after POST to prevent duplicate submissions
-            # Redirect to a page showing the log, or back to search for now
-            # messages.success(request, f"'{food_name}' added to your log.") # Example message
-            return redirect('food.list') # Redirect back to the search results/list page
+    return redirect('food.list')
 
-    # If not POST or if required data is missing, redirect
-    # Or render an error message
-    # messages.error(request, "Invalid request to add food log.") # Example message
-    return redirect('food.list') # Redirect back
-
+# Remove a food log entry
 @login_required
 def remove_food_log(request, log_id):
     food_log = get_object_or_404(FoodLog, id=log_id, user=request.user)
     food_log.delete()
-    return redirect('food.list')  # Redirect back to the food list page
+    return redirect('food.list')
 
+# Add a water intake log
 @login_required
 def add_water_log(request):
     if request.method == 'POST':
@@ -187,20 +146,21 @@ def add_water_log(request):
                 water_amount_ml=float(water_amount),
                 log_date=timezone.now()
             )
-    return redirect('food.list')  # Redirect back to the same page
+    return redirect('food.list')
 
+# Remove a water intake log
 @login_required
 def remove_water_log(request, log_id):
     water_log = get_object_or_404(WaterLog, id=log_id, user=request.user)
     water_log.delete()
-    return redirect('food.list')  # Redirect back to the food list page
+    return redirect('food.list')
 
+# Add an exercise log
 @login_required
 def add_exercise_log(request):
     if request.method == 'POST':
         exercise_name = request.POST.get('exercise_name')
         calories_burned = request.POST.get('calories_burned')
-
         if exercise_name and calories_burned:
             ExerciseLog.objects.create(
                 user=request.user,
@@ -208,27 +168,27 @@ def add_exercise_log(request):
                 calories_burned=float(calories_burned),
                 log_date=timezone.now()
             )
-    return redirect('food.list')  # Redirect back to the same page
+    return redirect('food.list')
 
+# Remove an exercise log
 @login_required
 def remove_exercise_log(request, log_id):
     exercise_log = get_object_or_404(ExerciseLog, id=log_id, user=request.user)
     exercise_log.delete()
-    return redirect('food.list')  # Redirect back to the food list page
+    return redirect('food.list')
 
-
+# Helper function to create a system prompt for LLM
 def create_system_prompt(food_string, exercise_string, water_string):
     return f"""
-    You are a helpful and friendly nutrition assistant. Always provide concise, factual answers. Give them adviced based on their logged foods, exercises, and water intake.
+    You are a helpful and friendly nutrition assistant. Always provide concise, factual answers.
     User's logged foods: {food_string}
     User's logged exercises: {exercise_string}
     User's logged water intake: {water_string}.
-    Responses should only in text format of paragraph
+    Responses should be in text paragraph format.
     """
 
-
+# Helper function to call the LLM
 def llm_call(user_input, system_prompt):
-
     response = client.chat.completions.create(
         messages=[
             {"role": "system", "content": system_prompt},
