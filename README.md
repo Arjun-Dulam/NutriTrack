@@ -1,5 +1,21 @@
 # NutriTrack
 
+## How to Run the Application
+
+To start the NutriTrack application, follow these steps:
+
+1. Activate the virtual environment:
+    ```bash
+    source .venv/bin/activate
+    ```
+
+2. Run the development server:
+    ```bash
+    python3 manage.py runserver
+    ```
+
+The application will now be accessible at the local server address provided in the terminal.
+
 ## User Stories
 
 - ✅ **As a user, I want to read about the services NutriTrack offers so that I can determine if I want to create an account.**
