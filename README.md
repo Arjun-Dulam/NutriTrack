@@ -8,8 +8,11 @@ To start the NutriTrack application, follow these steps:
     ```bash
     source .venv/bin/activate
     ```
-
-2. Run the development server:
+2. Install all requirements:
+   ```bash
+   pip3 install -r requirements.txt
+   ```
+3. Run the development server:
     ```bash
     python3 manage.py runserver
     ```
