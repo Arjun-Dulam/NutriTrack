@@ -2,33 +2,32 @@
 {% load static %}
 {% block body %}
 <div class="container mx-auto px-4 py-8">
-
-    <!-- Search for Food -->
+    <!-- Search Form -->
     <form method="get" action="{% url 'food.list' %}" class="flex items-center space-x-4 mb-8">
         <input type="text" name="query" placeholder="Search for food..." value="{{ query|default:'' }}"
             class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
-        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition duration-200">
+        <button type="submit"
+            class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition duration-200">
             Search
         </button>
     </form>
 
-    <!-- Display Search Query -->
+    <!-- Search Heading -->
     {% if query %}
         <h1 class="text-2xl font-bold text-gray-800 mb-6">Search Results for "{{ query }}"</h1>
     {% endif %}
 
-    <!-- Search Results or Messages -->
+
+    <!-- Display Messages or Results -->
     {% if message %}
         <p class="text-gray-700">{{ message }}</p>
     {% elif food_items %}
-        <!-- List of Food Items -->
         <ul id="food-results" class="space-y-4">
             {% for item in food_items %}
                 <li class="flex items-center justify-between bg-white border border-gray-300 rounded p-4 shadow">
                     <div>
                         <strong class="text-lg text-green-700">{{ item.title }}</strong>
                     </div>
-                    <!-- Add Food Item to Log -->
                     <form method="post" action="{% url 'add_food_log' %}" class="flex items-center space-x-2">
                         {% csrf_token %}
                         <input type="hidden" name="food_name" value="{{ item.title }}">
@@ -41,7 +40,7 @@
             {% endfor %}
         </ul>
 
-        <!-- Load More Button for Pagination -->
+        <!-- Load More Button -->
         <button id="load-more" data-page="{{ page|add:1 }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-200 mt-8">
             Load More
         </button>
@@ -49,25 +48,26 @@
         <p class="text-gray-600">No results found for "{{ query }}". Try searching for something else!</p>
     {% endif %}
 
-    <!-- LLM Assistant Section -->
     <h2 class="text-2xl font-bold text-gray-800 mt-12 mb-4">Ask the Nutrition Assistant</h2>
     <form method="post" action="{% url 'food.list' %}" class="mb-8">
         {% csrf_token %}
         <div class="flex items-center space-x-4">
-            <input type="text" name="llm_question" placeholder="Ask a nutrition-related question..." class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" required>
-            <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition duration-200">
+            <input type="text" name="llm_question" placeholder="Ask a nutrition-related question..."
+                class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+                required>
+            <button type="submit"
+                class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition duration-200">
                 Ask
             </button>
         </div>
     </form>
+    
     {% if llm_response %}
     <div class="bg-white border border-green-400 rounded p-4 shadow">
         <h3 class="text-lg font-bold text-green-700 mb-2">Assistant's Response:</h3>
         <p class="text-gray-700">{{ llm_response }}</p>
     </div>
     {% endif %}
-
-    <!-- Logged Foods Section -->
     <h2 class="text-2xl font-bold text-gray-800 mt-12 mb-4">Your Logged Foods</h2>
     {% if logged_foods %}
         <ul class="space-y-4">
@@ -75,10 +75,14 @@
                 <li class="flex items-center justify-between bg-white border border-gray-300 rounded p-4 shadow">
                     <div>
                         <strong class="text-lg text-green-700">{{ log.food_name }}</strong>
-                        <p class="text-sm text-gray-600">Logged on {{ log.log_date|date:"M d, Y H:i" }}</p>
+                        <p class="text-sm text-gray-600">
+                            Logged on {{ log.log_date|date:"M d, Y H:i" }}
+                        </p>
                     </div>
                     <div>
-                        <p class="text-sm text-gray-600">Calories: <strong>{{ log.calories|default:"N/A" }}</strong></p>
+                        <p class="text-sm text-gray-600">
+                            Calories: <strong>{{ log.calories|default:"N/A" }}</strong>
+                        </p>
                     </div>
                     <form method="post" action="{% url 'remove_food_log' log.id %}">
                         {% csrf_token %}
@@ -93,9 +97,130 @@
         <p class="text-gray-600">You haven't logged any foods yet.</p>
     {% endif %}
 
-    <!-- Log Water Intake Section -->
+    <!-- Water Intake Form -->
     <h2 class="text-2xl font-bold text-gray-800 mt-12 mb-4">Log Your Water Intake</h2>
     <form method="post" action="{% url 'add_water_log' %}" class="mb-8">
         {% csrf_token %}
         <div class="flex items-center space-x-4">
-            <
+            <input type="number" name="water_amount" placeholder="Enter water in ml"
+                class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button type="submit"
+                class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-200">
+                Log Water
+            </button>
+        </div>
+    </form>
+
+    <!-- Display Logged Water -->
+    <h2 class="text-2xl font-bold text-gray-800 mt-12 mb-4">Your Logged Water Intake</h2>
+    {% if water_logs %}
+        <ul class="space-y-4">
+            {% for log in water_logs %}
+                <li class="flex items-center justify-between bg-white border border-gray-300 rounded p-4 shadow">
+                    <div>
+                        <strong class="text-lg text-blue-700">{{ log.water_amount_ml }} ml</strong>
+                        <p class="text-sm text-gray-600">
+                            Logged on {{ log.log_date|date:"M d, Y H:i" }}
+                        </p>
+                    </div>
+                    <form method="post" action="{% url 'remove_water_log' log.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition duration-200">
+                            Remove
+                        </button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-gray-600">You haven't logged any water intake yet.</p>
+    {% endif %}
+
+    <h2 class="text-2xl font-bold text-gray-800 mt-12 mb-4">Log Your Exercise</h2>
+<form method="post" action="{% url 'add_exercise_log' %}" class="space-y-4 mb-8">
+    {% csrf_token %}
+    <input type="text" name="exercise_name" placeholder="Exercise Name"
+        class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+    <input type="number" name="calories_burned" placeholder="Calories Burned"
+        class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+    <button type="submit"
+        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-200">
+        Log Exercise
+    </button>
+</form>
+
+<h2 class="text-2xl font-bold text-gray-800 mt-12 mb-4">Your Logged Exercises</h2>
+{% if exercise_logs %}
+    <ul class="space-y-4">
+        {% for log in exercise_logs %}
+            <li class="flex items-center justify-between bg-white border border-gray-300 rounded p-4 shadow">
+                <div>
+                    <strong class="text-lg text-blue-700">{{ log.exercise_name }}</strong>
+                    <p class="text-sm text-gray-600">
+                        Calories Burned: {{ log.calories_burned }}
+                    </p>
+                    <p class="text-sm text-gray-600">
+                        Logged on {{ log.log_date|date:"M d, Y H:i" }}
+                    </p>
+                </div>
+                <form method="post" action="{% url 'remove_exercise_log' log.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition duration-200">
+                        Remove
+                    </button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p class="text-gray-600">You haven't logged any exercises yet.</p>
+{% endif %}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const loadMoreButton = document.getElementById('load-more');
+        const foodResultsContainer = document.getElementById('food-results');
+
+        if (loadMoreButton) {
+            loadMoreButton.addEventListener('click', function () {
+                const page = loadMoreButton.getAttribute('data-page');
+                const query = new URLSearchParams(window.location.search).get('query');
+
+                fetch(`/food/search/?query=${query}&page=${page}`, {
+                    headers: {
+                        'x-requested-with': 'XMLHttpRequest'  // Indicate AJAX request
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.food_items) {
+                        data.food_items.forEach(item => {
+                            const listItem = document.createElement('li');
+                            listItem.className = 'flex items-center justify-between bg-white border border-gray-300 rounded p-4 shadow';
+                            listItem.innerHTML = `
+                                <div>
+                                    <strong class="text-lg text-green-700">${item.title}</strong>
+                                </div>
+                                <form method="post" action="{% url 'add_food_log' %}" class="flex items-center space-x-2">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="food_name" value="${item.title}">
+                                    <input type="hidden" name="spoonacular_id" value="${item.id}">
+                                    <button type="submit" class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 transition duration-200">
+                                        Add to Log
+                                    </button>
+                                </form>
+                            `;
+                            foodResultsContainer.appendChild(listItem);
+                        });
+
+                        // Increment the page number
+                        loadMoreButton.setAttribute('data-page', parseInt(page) + 1);
+                    }
+                })
+                .catch(error => console.error('Error loading more results:', error));
+            });
+        }
+    });
+</script>
+{% endblock %}
