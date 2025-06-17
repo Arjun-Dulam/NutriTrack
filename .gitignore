@@ -27,7 +27,7 @@ tailwind.config.js
 tailwindcss
 
 # Database file
-#db.sqlite3
+db.sqlite3
 
 # Collected static files
 /staticfiles/
