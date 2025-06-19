@@ -7,13 +7,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 
-# Handles user logout. Only accessible if the user is logged in.
-@login_required
-def logout(request):
-    auth_logout(request)
-    return redirect('home.index')
-
-
 # User Log In
 def login(request):
 
@@ -45,6 +38,8 @@ def login(request):
 
 # User Sign Up
 def signup(request):
+    template_data = {}
+
     if request.method == 'POST':
 
         #simple POST request
@@ -54,11 +49,15 @@ def signup(request):
             user = form.save()
             auth_login(request, user)  # Auto-login after signup.
             return redirect('profiles.edit_profile')  # Redirect to edit profile page.
+        else:
+            #assuming false inputs
+            template_data['form'] = form
+            return render(request, 'accounts/signup.html', {'template_data': template_data})
+            
     else:
-
         #simple GET request
         form = UserCreationForm()
-        template_data = {'form': form}
+        template_data['form'] = form
         return render(request, 'accounts/signup.html', {'template_data': template_data})
 
 
@@ -95,8 +94,7 @@ def changePassword(request):
             return render(request, 'accounts/changePassword.html', {'template_data': template_data})
 
 
-# Duplicate logout view (redundant with the one above).
-# Suggestion: Keep only one logout view to avoid confusion.
+# simple logout view
 @login_required
 def logout(request):
     auth_logout(request)
