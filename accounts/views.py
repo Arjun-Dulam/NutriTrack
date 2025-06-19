@@ -14,25 +14,30 @@ def logout(request):
     return redirect('home.index')
 
 
-# Handles user login.
+# User Log In
 def login(request):
+
     template_data = {}
+
     template_data['title'] = 'Login'
 
     if request.method == 'GET':
-        # Display the login form.
+        
+        #simple get request passing in a dictionary
         return render(request, 'accounts/login.html', {'template_data': template_data})
 
     elif request.method == 'POST':
-        # Process login form submission.
+        
+        #simple POST request
+
         user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
 
         if user is None:
-            # If authentication fails, reload login page with error.
+            # load template_data dictionary with an error key that will later be used in GET request
             template_data['error'] = 'The username or password is incorrect.'
             return render(request, 'accounts/login.html', {'template_data': template_data})
         else:
-            # If successful, log the user in and redirect.
+            # if there is an user, we log the user in and redirect to homepage.
             auth_login(request, user)
             messages.success(request, f'Welcome back, {user.username}! You have successfully logged in.')
             return redirect('home.index')
@@ -43,7 +48,7 @@ def signup(request):
     if request.method == 'POST':
 
         #simple POST request
-        
+
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
