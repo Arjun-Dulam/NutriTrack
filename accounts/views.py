@@ -38,20 +38,23 @@ def login(request):
             return redirect('home.index')
 
 
-# Handles user signup (account creation).
+# User Sign Up
 def signup(request):
     if request.method == 'POST':
+
+        #simple POST request
+        
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             auth_login(request, user)  # Auto-login after signup.
             return redirect('profiles.edit_profile')  # Redirect to edit profile page.
     else:
-        form = UserCreationForm()
 
-    # Render signup form.
-    template_data = {'form': form}
-    return render(request, 'accounts/signup.html', {'template_data': template_data})
+        #simple GET request
+        form = UserCreationForm()
+        template_data = {'form': form}
+        return render(request, 'accounts/signup.html', {'template_data': template_data})
 
 
 # Handles user password change.
