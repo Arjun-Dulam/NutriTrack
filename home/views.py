@@ -9,6 +9,7 @@ from food.models import FoodLog, ExerciseLog, WaterLog
 # Initialize Groq API client using API key from Django settings
 client = Groq(api_key=settings.GROQ_API_KEY)
 
+
 # --------- Helper Functions ---------
 
 def calculate_total_calories_eaten(user):
@@ -88,6 +89,12 @@ def index(request):
         user_profile = None
         restrictions_str = ""
 
+    if user_profile.sex == None or user_profile.height_cm == None or user_profile.weight_kg == None or user_profile.activity_level == None:
+       profile, created = UserProfile.objects.get_or_create(user=request.user)
+       template_data = {}
+       template_data["error"] = "Please Fill out the Fields that says None before trying to access the Home Page."
+       return render(request, 'profiles/view_profile.html', {'profile': profile, 'template_data': template_data})
+
     sex = user_profile.sex if user_profile else None
     height_cm = user_profile.height_cm if user_profile else None
     weight_kg = user_profile.weight_kg if user_profile else None
@@ -125,25 +132,19 @@ def index(request):
         'user_question': user_question,
         'water_intake': water_intake,
         'water_intake_logged': water_intake_logged,
-        'total_calories_eaten': total_calories_eaten,
-        'exercise_calories': total_exercise_calories,
-        'maintenance_calories': calories_needed,
+        'maintenance_calories': int(calories_needed or 0),
+        'exercise_calories': int(total_exercise_calories or 0),
+        'total_calories_eaten': int(total_calories_eaten or 0),
     })
 
+#about page
 def about(request):
-    """
-    View to render the About page.
-    """
     return render(request, 'home/about.html')
 
+#contact page
 def contact(request):
-    """
-    View to render the Contact page.
-    """
     return render(request, 'home/contact.html')
 
+#sevices page
 def services(request):
-    """
-    View to render the Services page.
-    """
     return render(request, 'home/services.html')
