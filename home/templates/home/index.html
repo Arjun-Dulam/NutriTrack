@@ -35,7 +35,13 @@
     <script>
         // Calorie Breakdown Chart
         const ctx = document.getElementById('calorieChart').getContext('2d');
-        const calorieDeficitOrSurplus = {{ total_calories_eaten }} - ({{ exercise_calories }} + {{ maintenance_calories }});
+
+        const totalCalories   = Number("{{ total_calories_eaten }}");
+        const exerciseCalories = Number("{{ exercise_calories }}");
+        const maintenanceCalories = Number("{{ maintenance_calories }}");
+        const calorieDeficitOrSurplus = totalCalories - exerciseCalories;
+
+        // both exercise and maintenance shown as negative "burn" bars
         const calorieChart = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -43,9 +49,9 @@
                 datasets: [{
                     label: 'Calories (kcal)',
                     data: [
-                        {{ total_calories_eaten }},
-                        -{{ exercise_calories }},
-                        -{{ maintenance_calories }},
+                        totalCalories,
+                        exerciseCalories,
+                        maintenanceCalories,
                         calorieDeficitOrSurplus
                     ],
                     backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)'],
@@ -57,8 +63,8 @@
                 scales: {
                     y: {
                         beginAtZero: true,
-                        suggestedMin: Math.min(0, calorieDeficitOrSurplus, -{{ exercise_calories }}, -{{ maintenance_calories }}),
-                        suggestedMax: Math.max({{ total_calories_eaten }}, calorieDeficitOrSurplus)
+                        suggestedMin: Math.min(0, calorieDeficitOrSurplus, -exerciseCalories, -maintenanceCalories),
+                        suggestedMax: Math.max(totalCalories, calorieDeficitOrSurplus)
                     }
                 }
             }
@@ -69,15 +75,19 @@
     <h2 class="text-xl font-bold mt-8">Water Intake</h2>
     <canvas id="waterChart" width="400" height="200"></canvas>
     <script>
-        // Water Intake Chart
+
+        // to make the javascript parser understand that we are not defining an object literal
         const waterCtx = document.getElementById('waterChart').getContext('2d');
+        const waterIntakeLogged = Number("{{ water_intake_logged }}");
+        const recommendedWater  = Number("{{ water_intake }}");
+
         const waterChart = new Chart(waterCtx, {
             type: 'bar',
             data: {
                 labels: ['Water Intake', 'Recommended Water'],
                 datasets: [{
                     label: 'Water (liters)',
-                    data: [{{ water_intake_logged }}, {{ water_intake }}],
+                    data: [ waterIntakeLogged, recommendedWater],
                     backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(75, 192, 192, 0.2)'],
                     borderColor: ['rgba(54, 162, 235, 1)', 'rgba(75, 192, 192, 1)'],
                     borderWidth: 1
@@ -87,11 +97,12 @@
                 scales: {
                     y: {
                         beginAtZero: true,
-                        suggestedMax: Math.max({{ water_intake_logged }}, {{ water_intake }}) * 1.2
+                        suggestedMax: Math.max(waterIntakeLogged, recommendedWater) * 1.2
                     }
                 }
             }
         });
+
     </script>
 
 </main>
