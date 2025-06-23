@@ -127,6 +127,7 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
+#Groq
 GROQ_API_KEY ="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"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
