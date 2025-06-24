@@ -32,7 +32,9 @@
                         <polygon points="0,0 20,0 10,10"></polygon>
                     </svg>
                 </button>
-<!-- Dropdown Menu -->
+
+
+                <!-- Dropdown Menu (with javascript in external file to allow for the feature)-->
                 <ul id="user-menu" class="absolute hidden bg-white text-black right-0 mt-2 py-2 w-48 border rounded shadow-lg">
                     {% if user.is_authenticated %}
                         <li><a href="{% url 'profiles.view_profile' %}" class="block px-4 py-2 hover:bg-gray-200">View Profile</a></li>
