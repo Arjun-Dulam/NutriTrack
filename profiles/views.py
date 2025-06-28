@@ -3,7 +3,7 @@ from .forms import UserProfileForm
 from .models import UserProfile
 from django.contrib.auth.decorators import login_required
 
-# View for editing the user's profile
+# View for editing the user's profile, probably require login for this
 # @login_required  # (optional) Decorator to require login
 def edit_profile(request):
     # Get or create a profile for the current user
