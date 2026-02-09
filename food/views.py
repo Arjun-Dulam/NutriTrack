@@ -2,10 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from profiles.models import UserProfile
-from .models import FoodLog, WaterLog, ExerciseLog
+from .models import FoodLog, WaterLog, ExerciseLog, NutritionCache, CacheMetrics
 from django.utils import timezone
 from django.http import JsonResponse
-from django.db.models import Sum
+from django.db.models import Sum, F
+from django.utils.timezone import now as tz_now
+from datetime import date
 from groq import Groq
 import requests
 
@@ -88,7 +90,7 @@ def food_list(request):
         'exercise_logs': exercise_logs,
     })
 
-# Add a food log entry
+# Add a food log entry (with database-backed nutrition cache)
 @login_required
 def add_food_log(request):
     if request.method == 'POST':
@@ -98,22 +100,53 @@ def add_food_log(request):
 
         calories = protein_g = carbs_g = fat_g = None
 
-        # Fetch detailed nutrition info
+        # Fetch detailed nutrition info with cache-aside pattern
         if spoonacular_id:
-            try:
-                api_key = settings.SPOONACULAR_API_KEY
-                url = f"https://api.spoonacular.com/recipes/{spoonacular_id}/nutritionWidget.json?apiKey={api_key}"
-                response = requests.get(url)
-                response.raise_for_status()
-                data = response.json()
+            cache_entry = NutritionCache.objects.filter(spoonacular_id=spoonacular_id).first()
 
-                # Parse nutrition info
-                calories = float(data.get('calories', '0').replace('kcal', '').strip() or 0)
-                protein_g = float(data.get('protein', '0').replace('g', '').strip() or 0)
-                carbs_g = float(data.get('carbs', '0').replace('g', '').strip() or 0)
-                fat_g = float(data.get('fat', '0').replace('g', '').strip() or 0)
-            except Exception as e:
-                print(f"Error fetching or parsing nutrition data: {e}")
+            if cache_entry:
+                # CACHE HIT - use cached data
+                calories = cache_entry.calories
+                protein_g = cache_entry.protein_g
+                carbs_g = cache_entry.carbs_g
+                fat_g = cache_entry.fat_g
+
+                # Update access metadata
+                NutritionCache.objects.filter(pk=cache_entry.pk).update(
+                    access_count=F('access_count') + 1,
+                    last_accessed=tz_now(),
+                )
+                _record_cache_hit()
+            else:
+                # CACHE MISS - fetch from Spoonacular API
+                try:
+                    api_key = settings.SPOONACULAR_API_KEY
+                    url = f"https://api.spoonacular.com/recipes/{spoonacular_id}/nutritionWidget.json?apiKey={api_key}"
+                    response = requests.get(url)
+                    response.raise_for_status()
+                    data = response.json()
+
+                    # Parse nutrition info
+                    calories = float(data.get('calories', '0').replace('kcal', '').strip() or 0)
+                    protein_g = float(data.get('protein', '0').replace('g', '').strip() or 0)
+                    carbs_g = float(data.get('carbs', '0').replace('g', '').strip() or 0)
+                    fat_g = float(data.get('fat', '0').replace('g', '').strip() or 0)
+
+                    # Store in cache for future lookups
+                    NutritionCache.objects.create(
+                        spoonacular_id=spoonacular_id,
+                        food_name=food_name or '',
+                        calories=calories,
+                        protein_g=protein_g,
+                        carbs_g=carbs_g,
+                        fat_g=fat_g,
+                        raw_api_response=data,
+                        access_count=1,
+                    )
+                except Exception as e:
+                    print(f"Error fetching or parsing nutrition data: {e}")
+
+                _record_cache_miss()
 
         if food_name:
             FoodLog.objects.create(
@@ -198,3 +231,19 @@ def llm_call(user_input, system_prompt):
         stream=False,
     )
     return response.choices[0].message.content
+
+
+# Cache metrics helpers
+def _record_cache_hit():
+    metrics, _ = CacheMetrics.objects.get_or_create(date=date.today())
+    CacheMetrics.objects.filter(pk=metrics.pk).update(
+        cache_hits=F('cache_hits') + 1,
+        api_calls_saved=F('api_calls_saved') + 1,
+    )
+
+
+def _record_cache_miss():
+    metrics, _ = CacheMetrics.objects.get_or_create(date=date.today())
+    CacheMetrics.objects.filter(pk=metrics.pk).update(
+        cache_misses=F('cache_misses') + 1,
+    )
